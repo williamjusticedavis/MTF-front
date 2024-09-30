@@ -4,7 +4,7 @@ interface CardProps {
   onClose: () => void;
 }
 
-const PopUpCard: React.FC<CardProps> = ({ onClose }) => {
+const PopUpCardCreate: React.FC<CardProps> = ({ onClose }) => {
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
       <div className="bg-white p-8 rounded-lg shadow-lg max-w-md w-full space-y-4">
@@ -51,4 +51,4 @@ const PopUpCard: React.FC<CardProps> = ({ onClose }) => {
   );
 };
 
-export default PopUpCard;
+export default PopUpCardCreate;
