@@ -10,7 +10,7 @@ interface SideProps {
 const Side: React.FC<SideProps> = ({ isOpen }) => {
   return (
     <aside 
-      className={`fixed top-0 right-0 w-[150px] h-full bg-black text-white p-4 transform transition-transform duration-300 flex flex-col justify-between ${isOpen ? 'translate-x-0' : 'translate-x-full'}`}
+      className={`fixed top-0 right-0 w-[150px] h-full bg-black text-white p-4 transition-transform duration-500 ease-in-out flex flex-col justify-between ${isOpen ? 'translate-x-0 opacity-100 scale-100' : 'translate-x-full opacity-0 scale-75'}`}
       style={{ zIndex: 1000 }}
     >
       {/* לוגו */}
