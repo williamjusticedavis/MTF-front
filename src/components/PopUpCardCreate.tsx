@@ -5,6 +5,7 @@ import { createUser } from '../server/app';
 
 interface CardProps {
   onClose: () => void;
+  onUserCreated: () => void; // Added to reload the table after user creation
 }
 
 type FormData = {
@@ -15,13 +16,16 @@ type FormData = {
   phoneNumber: string; 
 };
 
-const PopUpCardCreate: React.FC<CardProps> = ({ onClose }) => {
+const PopUpCardCreate: React.FC<CardProps> = ({ onClose, onUserCreated }) => {
   const { register, handleSubmit, setValue, formState: { errors } } = useForm<FormData>();
 
   const onSubmit: SubmitHandler<FormData> = async (data) => {
     try {
       const result = await createUser(data);
       console.log('User created successfully:', result);
+      alert('User created successfully');
+      onUserCreated(); 
+      onClose(); 
     } catch (error) {
       console.error('Error creating user:', error);
     }
@@ -114,7 +118,7 @@ const PopUpCardCreate: React.FC<CardProps> = ({ onClose }) => {
           <div className="flex flex-col space-y-2">
             <label htmlFor="phoneNumber" className="text-gray-600">Phone Number</label>
             <input 
-              id="phoneNumber"  // Updated id and field name
+              id="phoneNumber" 
               type="text" 
               {...register('phoneNumber', {
                 ...phoneValidation,
