@@ -1,5 +1,6 @@
 import axios from 'axios';
 
+// Adding new user
 export const createUser = async (userData: {
   firstName: string;
   lastName: string;
@@ -8,7 +9,7 @@ export const createUser = async (userData: {
   phoneNumber: string;
 }) => {
   try {
-    const response = await axios.post('/createuser', userData);
+    const response = await axios.post('http://localhost:3000/api/users/createUser', userData);
     return response.data;
   } catch (error) {
     console.error('Error creating user:', error);
@@ -16,9 +17,11 @@ export const createUser = async (userData: {
   }
 };
 
+
+// Fetching all users
 export async function fetchUsers() {
     try {
-        const response = await fetch('http://localhost:3000/users/'); // כתובת ה-API שלך
+        const response = await fetch('http://localhost:3000/api/users/users'); // כתובת ה-API שלך
         if (!response.ok) {
             throw new Error('Network response was not ok');
         }
@@ -31,7 +34,7 @@ export async function fetchUsers() {
 }
 
 
-
+// Login
 export const checkEmail = async (userData: { email: string }) => {
     try {
         const response = await axios.post('/login', userData);
@@ -42,3 +45,20 @@ export const checkEmail = async (userData: { email: string }) => {
         throw error; // זורקת את השגיאה כדי שהקוד שיקרא לפונקציה ידע לטפל בה
     }
 };
+
+// Updating user
+export const updateUser = async (id: string, updatedData: {
+    firstName?: string;
+    lastName?: string;
+    email?: string;
+    role?: string;
+    phoneNumber?: string;
+  }) => {
+    try {
+      const response = await axios.patch(`http://localhost:3000/api/users/updateUser/${id}`, updatedData);
+      return response.data;
+    } catch (error) {
+      console.error(`Error updating user with ID ${id}:`, error);
+      throw error;
+    }
+  };

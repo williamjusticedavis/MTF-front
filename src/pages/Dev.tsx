@@ -8,6 +8,7 @@ import PopUpCardCreate from '../components/PopUpCardCreate';
 const Dev: React.FC = () => {
   const [isAsideOpen, setAsideOpen] = useState<boolean>(false);
   const [isCardVisible, setCardVisible] = useState(false);
+  const [tableKey, setTableKey] = useState(0); // Use a number as the key
 
   const toggleAside = () => {
     setAsideOpen(!isAsideOpen);
@@ -21,23 +22,24 @@ const Dev: React.FC = () => {
     setCardVisible(false);
   };
 
+  // Function to reload the table after user creation
+  const handleUserCreated = () => {
+    setTableKey(prevKey => prevKey + 1); // Increment the key to force re-render
+    hideCard(); // Close the pop-up
+  };
+
   useEffect(() => {
-    // בדוק את רוחב החלון
     const handleResize = () => {
-      if (window.innerWidth >= 768) { // תוכל לשנות את הערך לפי הצורך שלך
-        setAsideOpen(true); // פתח את ה-aside במחשב
+      if (window.innerWidth >= 768) {
+        setAsideOpen(true);
       } else {
-        setAsideOpen(false); // סגור את ה-aside במובייל
+        setAsideOpen(false);
       }
     };
 
-    // קוראים לפונקציה פעם אחת כשהקומפוננטה נטענת
     handleResize();
-
-    // הוספת מאזין לאירוע שינוי גודל החלון
     window.addEventListener('resize', handleResize);
 
-    // הסרת המאזין כשהקומפוננטה נעלמת
     return () => {
       window.removeEventListener('resize', handleResize);
     };
@@ -48,12 +50,15 @@ const Dev: React.FC = () => {
       <Header toggleAside={toggleAside} />
       <main className="flex-grow bg-gray-100 p-4">
 
-      {/* create new user button */}
-      <button onClick={showCard}className="bg-green-500 text-white px-6 py-3 rounded-lg hover:bg-green-600">Create new user</button>
-      {isCardVisible && <PopUpCardCreate onClose={hideCard} />}
+        {/* create new user button */}
+        <button onClick={showCard} className="bg-green-500 text-white px-6 py-3 rounded-lg hover:bg-green-600">Create new user</button>
+        
+        {isCardVisible && (
+          <PopUpCardCreate onClose={hideCard} onUserCreated={handleUserCreated} />
+        )}
 
         <div className="container mx-auto bg-white shadow-md rounded-lg p-6"> 
-          <Table />
+          <Table key={tableKey} /> {/* Use the counter as the key */}
         </div>
       </main>
       <Footer />
