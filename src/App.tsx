@@ -2,7 +2,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom"
 import Home from "./pages/home"
 import Dev from "./pages/Dev"
 import { Provider } from "react-redux"
-import {store} from './redux/store'
+import store from './redux/store'
 
 function App() {
 
@@ -29,3 +29,6 @@ function App() {
 }
 
 export default App
+
+
+
