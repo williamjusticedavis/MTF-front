@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { MdModeEdit } from "react-icons/md";
 import { useForm } from 'react-hook-form';
 import { updateUser } from '../server/app';  // Import the updateUser function
 import { firstNameValidation, lastNameValidation, roleValidation, emailValidation, phoneValidation } from '../validation/userValidation';
@@ -68,8 +69,8 @@ const EditUser: React.FC<UserDetails> = ({ id, firstName, lastName, email, role,
 
   return (
     <div>
-      <button className="bg-blue-500 text-white px-4 py-2 rounded" onClick={() => setShowModal(true)}>
-        Edit User
+      <button className="text-gray-500 transition-transform duration-200 transform hover:scale-150 hover:text-gray-800 focus:scale-150 focus:outline-none" onClick={() => setShowModal(true)}>
+      <MdModeEdit />
       </button>
 
       {showModal && (
