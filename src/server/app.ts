@@ -37,7 +37,7 @@ export async function fetchUsers() {
 // Login
 export const checkEmail = async (userData: { email: string }) => {
     try {
-        const response = await axios.post('/login', userData);
+        const response = await axios.post('http://localhost:3000/api/users/login', userData);
         return response.data; // מחזירה את הנתונים מהתגובה
     } catch (error) {
         // טיפול בשגיאות

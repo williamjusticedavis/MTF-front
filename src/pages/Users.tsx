@@ -5,7 +5,7 @@ import Side from '../components/Side';
 import Table from '../components/Table';
 import PopUpCardCreate from '../components/PopUpCardCreate';
 
-const Dev: React.FC = () => {
+const Users: React.FC = () => {
   const [isAsideOpen, setAsideOpen] = useState<boolean>(false);
   const [isCardVisible, setCardVisible] = useState(false);
   const [tableKey, setTableKey] = useState(0); // Use a number as the key
@@ -67,4 +67,4 @@ const Dev: React.FC = () => {
   );
 };
 
-export default Dev;
+export default Users;
