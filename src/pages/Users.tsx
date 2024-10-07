@@ -4,11 +4,13 @@ import Footer from '../components/Footer';
 import Side from '../components/Side';
 import Table from '../components/Table';
 import PopUpCardCreate from '../components/PopUpCardCreate';
+import DownloadUserList from '../components/DownloadUserList';
 
 const Users: React.FC = () => {
   const [isAsideOpen, setAsideOpen] = useState<boolean>(false);
   const [isCardVisible, setCardVisible] = useState(false);
   const [tableKey, setTableKey] = useState(0); // Use a number as the key
+  const [isDownloadPopupVisible, setIsDownloadPopupVisible] = useState<boolean>(false)
 
   const toggleAside = () => {
     setAsideOpen(!isAsideOpen);
@@ -16,6 +18,10 @@ const Users: React.FC = () => {
 
   const showCard = () => {
     setCardVisible(true);
+  };
+
+  const showDownloadPopup = () => {
+    setIsDownloadPopupVisible(!isDownloadPopupVisible);
   };
 
   const hideCard = () => {
@@ -52,12 +58,17 @@ const Users: React.FC = () => {
 
         {/* create new user button */}
         <button onClick={showCard} className="bg-green-500 text-white px-6 py-3 rounded-lg hover:bg-green-600">Create new user</button>
-        
+        <button onClick={showDownloadPopup} className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 transition-colors">
+          Download
+        </button>
+        {isDownloadPopupVisible && (
+          <DownloadUserList setIsDownloadPopupVisible={setIsDownloadPopupVisible} />
+        )}
         {isCardVisible && (
           <PopUpCardCreate onClose={hideCard} onUserCreated={handleUserCreated} />
         )}
 
-        <div className="container mx-auto bg-white shadow-md rounded-lg p-6"> 
+        <div className="container mx-auto bg-white shadow-md rounded-lg p-6">
           <Table key={tableKey} /> {/* Use the counter as the key */}
         </div>
       </main>
