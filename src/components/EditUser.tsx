@@ -41,8 +41,6 @@ const EditUser: React.FC<UserDetails> = ({ id, firstName, lastName, email, role,
 
       // Refresh the users list after successful update
       refreshUsers();
-
-      alert('User updated successfully');
       setShowModal(false);  // Close the modal after a successful update
     } catch (error) {
       console.error('Error updating user', error);
@@ -74,7 +72,7 @@ const EditUser: React.FC<UserDetails> = ({ id, firstName, lastName, email, role,
       </button>
 
       {showModal && (
-        <div className="fixed inset-0 bg-gray-600 bg-opacity-50 flex justify-center items-center">
+        <div className="fixed inset-0 bg-gray-600 bg-opacity-50 flex justify-center items-center z-50">
           <div className="bg-white p-6 rounded shadow-md w-full max-w-lg">
             <h2 className="text-xl font-semibold mb-4">Edit User</h2>
             <form onSubmit={handleSubmit(onSubmit)} className="space-y-6" noValidate>

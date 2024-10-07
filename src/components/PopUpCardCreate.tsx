@@ -23,7 +23,6 @@ const PopUpCardCreate: React.FC<CardProps> = ({ onClose, onUserCreated }) => {
     try {
       const result = await createUser(data);
       console.log('User created successfully:', result);
-      alert('User created successfully');
       onUserCreated(); 
       onClose(); 
     } catch (error) {

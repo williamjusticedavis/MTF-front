@@ -35,15 +35,22 @@ export async function fetchUsers() {
 
 
 // Login
-export const checkEmail = async (userData: { email: string }) => {
-    try {
-        const response = await axios.post('http://localhost:3000/api/users/login', userData);
-        return response.data; // מחזירה את הנתונים מהתגובה
-    } catch (error) {
-        // טיפול בשגיאות
-        console.error('Error checking email:', error);
-        throw error; // זורקת את השגיאה כדי שהקוד שיקרא לפונקציה ידע לטפל בה
-    }
+export const checkEmail = async ({ email }: { email: string }) => {
+  try {
+      const response = await fetch('http://localhost:3000/api/users/checkEmail', {
+          method: 'POST',
+          headers: {
+              'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ email }),
+      });
+
+      const result = await response.json();
+      return result;
+  } catch (error) {
+      console.error('Error in checkEmail:', error);
+      throw error;
+  }
 };
 
 // Updating user
