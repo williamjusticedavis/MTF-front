@@ -1,12 +1,14 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom"
 import Home from "./pages/home"
 import Dev from "./pages/Dev"
-
+import { Provider } from "react-redux"
+import {store} from './redux/store'
 
 function App() {
 
   return (
     <>
+    <Provider store={store}>
       <BrowserRouter>
       <Routes>
         <Route path="/" element={<h1>place holder for / page</h1>}/>
@@ -21,6 +23,7 @@ function App() {
         <Route path="/Dev" element={<Dev/>}/>
       </Routes>
       </BrowserRouter>
+      </Provider>
     </>
   )
 }

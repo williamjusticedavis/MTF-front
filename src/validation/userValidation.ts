@@ -29,7 +29,7 @@ export const emailValidation = {
 export const phoneValidation = {
   required: 'Phone number is required',
   pattern: {
-    value: /^\+?[1-9]\d{1,14}$/,
+    value: /^\+?[0-9]\d{1,14}$/,
     message: 'Invalid phone number format',
   },
 };
