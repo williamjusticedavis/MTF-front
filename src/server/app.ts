@@ -58,7 +58,7 @@ export const updateUser = async (id: string, updatedData: {
 };
 
 // Deleting user
-export const deleteUser = async (email: string) => {
+export const deleteUsers = async (email: string) => {
   try {
     const response = await axios.delete(`http://localhost:3000/api/users/deleteUser/${email}`);
     return response.data;
