@@ -8,7 +8,7 @@ const DeleteUser: React.FC<{ email: string }> = ({ email }) => {
 
   const handleDeleteUser = async() => {
     try {
-      const response = await deleteUser({ email }); 
+      const response = await deleteUser( email ); 
       console.log('Deleted User Response:', response);
       alert('User deleted successfully');
       setShowModal(false); 
