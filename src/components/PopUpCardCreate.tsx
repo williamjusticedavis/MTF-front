@@ -5,6 +5,7 @@ import { createUser } from '../server/app';
 
 interface CardProps {
   onClose: () => void;
+  onUserCreated: () => void; // Added to reload the table after user creation
 }
 
 type FormData = {
@@ -15,13 +16,15 @@ type FormData = {
   phoneNumber: string; 
 };
 
-const PopUpCardCreate: React.FC<CardProps> = ({ onClose }) => {
+const PopUpCardCreate: React.FC<CardProps> = ({ onClose, onUserCreated }) => {
   const { register, handleSubmit, setValue, formState: { errors } } = useForm<FormData>();
 
   const onSubmit: SubmitHandler<FormData> = async (data) => {
     try {
       const result = await createUser(data);
       console.log('User created successfully:', result);
+      onUserCreated(); 
+      onClose(); 
     } catch (error) {
       console.error('Error creating user:', error);
     }
@@ -72,7 +75,7 @@ const PopUpCardCreate: React.FC<CardProps> = ({ onClose }) => {
               placeholder="Last name" 
               className="border border-gray-300 rounded-md p-3 focus:outline-none focus:ring-2 focus:ring-blue-500" 
               onInput={handleNameInput} 
-              onBlur={handleBlur('lastName')} 
+              onBlur={handleBlur('lastName')} // fixed handleBlur invocation
             />
             {errors.lastName && <p className="text-red-500">{errors.lastName.message}</p>}
           </div>
@@ -114,7 +117,7 @@ const PopUpCardCreate: React.FC<CardProps> = ({ onClose }) => {
           <div className="flex flex-col space-y-2">
             <label htmlFor="phoneNumber" className="text-gray-600">Phone Number</label>
             <input 
-              id="phoneNumber"  // Updated id and field name
+              id="phoneNumber" 
               type="text" 
               {...register('phoneNumber', {
                 ...phoneValidation,
@@ -138,3 +141,6 @@ const PopUpCardCreate: React.FC<CardProps> = ({ onClose }) => {
 };
 
 export default PopUpCardCreate;
+
+
+
