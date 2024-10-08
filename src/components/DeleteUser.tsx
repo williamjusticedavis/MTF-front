@@ -9,7 +9,7 @@ const DeleteUser: React.FC<{ email: string }> = ({email}) => {
   const handleDeleteUser = async() => {
     try {
  
-      const response = await deleteUsers(email); 
+      await deleteUsers(email); 
       alert('User deleted successfully');
       setShowModal(false); 
     } catch (error) {
