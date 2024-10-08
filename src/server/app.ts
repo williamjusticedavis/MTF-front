@@ -32,7 +32,9 @@ export const fetchAllUsers = async () => {
 // Login
 export const checkEmail = async (userData: { email: string }) => {
   try {
+   
     const response = await axios.post('http://localhost:3000/api/users/login', userData);
+    console.log(response.data)
     return response.data;
   } catch (error) {
     console.error('Error checking email:', error);

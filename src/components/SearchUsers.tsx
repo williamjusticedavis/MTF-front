@@ -20,15 +20,16 @@ const SearchUsers: React.FC = () => {
   }, [searchInput, dispatch]);
 
   return (
-    <div className="flex justify-end mb-4"> 
-      <input
-        type="text"
-        onChange={InputChange}
-        value={searchInput}
-        placeholder='Search user'
-        className="border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" // עיצוב של Tailwind
-      />
-    </div>
+    <div className="w-full max-w-xs md:max-w-md lg:max-w-lg">
+  <input
+    type="text"
+    onChange={InputChange}
+    value={searchInput}
+    placeholder="Search user"
+    className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+  />
+</div>
+
   );
 }
 

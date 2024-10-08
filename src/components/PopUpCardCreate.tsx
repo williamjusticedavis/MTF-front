@@ -1,11 +1,11 @@
 import React from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { firstNameValidation, lastNameValidation, roleValidation, emailValidation, phoneValidation } from '../validation/userValidation';
-import { createUser } from '../server/app'; 
+import { createUser } from '../server/app';
 
 interface CardProps {
   onClose: () => void;
-  onUserCreated: () => void; // Added to reload the table after user creation
+  onUserCreated: () => void;
 }
 
 type FormData = {
@@ -13,7 +13,7 @@ type FormData = {
   lastName: string;
   role: string;
   email: string;
-  phoneNumber: string; 
+  phoneNumber: string;
 };
 
 const PopUpCardCreate: React.FC<CardProps> = ({ onClose, onUserCreated }) => {
@@ -23,8 +23,8 @@ const PopUpCardCreate: React.FC<CardProps> = ({ onClose, onUserCreated }) => {
     try {
       const result = await createUser(data);
       console.log('User created successfully:', result);
-      onUserCreated(); 
-      onClose(); 
+      onUserCreated();
+      onClose();
     } catch (error) {
       console.error('Error creating user:', error);
     }
@@ -34,7 +34,7 @@ const PopUpCardCreate: React.FC<CardProps> = ({ onClose, onUserCreated }) => {
     e.target.value = e.target.value
       .replace(/^\s+/, '')
       .replace(/\s{2,}/g, ' ')
-      .replace(/[^A-Za-z\s]/g, ''); 
+      .replace(/[^A-Za-z\s]/g, '');
   };
 
   const handleBlur = (fieldName: keyof FormData) => (e: React.FocusEvent<HTMLInputElement>) => {
@@ -44,38 +44,37 @@ const PopUpCardCreate: React.FC<CardProps> = ({ onClose, onUserCreated }) => {
 
   const handlePhoneInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     e.target.value = e.target.value
-      .replace(/\D/g, '') 
-      .slice(0, 10);  
+      .replace(/\D/g, '')
+      .slice(0, 10);
   };
 
   return (
-    <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 p-6">
-      <div className="bg-white p-10 rounded-lg shadow-lg max-w-md w-full space-y-6">
-        <h2 className="text-2xl font-semibold text-gray-700 mb-6">Create New User</h2>
-        
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 p-6">
+      <div className="bg-white p-6 rounded-lg shadow-lg max-w-md w-full max-h-[80vh] overflow-y-auto">
+        <h2 className="text-2xl font-semibold text-gray-700 mb-6 text-center">Create New User</h2>
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-6" noValidate>
           <div className="flex flex-col space-y-2">
             <label htmlFor="firstName" className="text-gray-600">First Name</label>
-            <input 
-              id="firstName" 
-              {...register('firstName', firstNameValidation)} 
-              placeholder="First name" 
-              className="border border-gray-300 rounded-md p-3 focus:outline-none focus:ring-2 focus:ring-blue-500" 
-              onInput={handleNameInput} 
-              onBlur={handleBlur('firstName')} 
+            <input
+              id="firstName"
+              {...register('firstName', firstNameValidation)}
+              placeholder="First name"
+              className="border border-gray-300 rounded-md p-3 focus:outline-none focus:ring-2 focus:ring-green-500"
+              onInput={handleNameInput}
+              onBlur={handleBlur('firstName')}
             />
             {errors.firstName && <p className="text-red-500">{errors.firstName.message}</p>}
           </div>
 
           <div className="flex flex-col space-y-2">
             <label htmlFor="lastName" className="text-gray-600">Last Name</label>
-            <input 
-              id="lastName" 
-              {...register('lastName', lastNameValidation)} 
-              placeholder="Last name" 
-              className="border border-gray-300 rounded-md p-3 focus:outline-none focus:ring-2 focus:ring-blue-500" 
-              onInput={handleNameInput} 
-              onBlur={handleBlur('lastName')} // fixed handleBlur invocation
+            <input
+              id="lastName"
+              {...register('lastName', lastNameValidation)}
+              placeholder="Last name"
+              className="border border-gray-300 rounded-md p-3 focus:outline-none focus:ring-2 focus:ring-green-500"
+              onInput={handleNameInput}
+              onBlur={handleBlur('lastName')}
             />
             {errors.lastName && <p className="text-red-500">{errors.lastName.message}</p>}
           </div>
@@ -83,10 +82,10 @@ const PopUpCardCreate: React.FC<CardProps> = ({ onClose, onUserCreated }) => {
           <div className="flex flex-col space-y-2">
             <label htmlFor="role" className="text-gray-600">Role</label>
             <div className="relative">
-              <select 
-                id="role" 
-                {...register('role', roleValidation)} 
-                className="appearance-none border border-gray-300 rounded-md p-3 w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
+              <select
+                id="role"
+                {...register('role', roleValidation)}
+                className="appearance-none border border-gray-300 rounded-md p-3 w-full focus:outline-none focus:ring-2 focus:ring-green-500"
               >
                 <option value="">Select Role</option>
                 <option value="Admin">Admin</option>
@@ -104,35 +103,39 @@ const PopUpCardCreate: React.FC<CardProps> = ({ onClose, onUserCreated }) => {
 
           <div className="flex flex-col space-y-2">
             <label htmlFor="email" className="text-gray-600">Email</label>
-            <input 
-              id="email" 
-              type="text" 
-              {...register('email', emailValidation)} 
-              placeholder="Email" 
-              className="border border-gray-300 rounded-md p-3 focus:outline-none focus:ring-2 focus:ring-blue-500" 
+            <input
+              id="email"
+              type="text"
+              {...register('email', emailValidation)}
+              placeholder="Email"
+              className="border border-gray-300 rounded-md p-3 focus:outline-none focus:ring-2 focus:ring-green-500"
             />
             {errors.email && <p className="text-red-500">{errors.email.message}</p>}
           </div>
 
           <div className="flex flex-col space-y-2">
             <label htmlFor="phoneNumber" className="text-gray-600">Phone Number</label>
-            <input 
-              id="phoneNumber" 
-              type="text" 
+            <input
+              id="phoneNumber"
+              type="text"
               {...register('phoneNumber', {
                 ...phoneValidation,
                 validate: (value) => value.length === 10 || 'Phone number must be exactly 10 digits',
-              })} 
-              placeholder="Phone number" 
-              className="border border-gray-300 rounded-md p-3 focus:outline-none focus:ring-2 focus:ring-blue-500" 
+              })}
+              placeholder="Phone number"
+              className="border border-gray-300 rounded-md p-3 focus:outline-none focus:ring-2 focus:ring-green-500"
               onInput={handlePhoneInput}
             />
             {errors.phoneNumber && <p className="text-red-500">{errors.phoneNumber.message}</p>}
           </div>
 
-          <div className="flex justify-end space-x-4">
-            <button type="button" onClick={onClose} className="bg-red-500 text-white px-5 py-2 rounded hover:bg-red-600 transition-colors">Cancel</button>
-            <button type="submit" className="bg-blue-500 text-white px-5 py-2 rounded hover:bg-blue-600 transition-colors">Submit</button>
+          <div className="flex flex-col sm:flex-row sm:justify-end space-y-4 sm:space-y-0 sm:space-x-4">
+            <button type="button" onClick={onClose} className="bg-red-500 text-white px-5 py-2 rounded hover:bg-red-600 transition-colors w-full sm:w-auto">
+              Cancel
+            </button>
+            <button type="submit" className="bg-green-500 text-white px-5 py-2 rounded hover:bg-green-600 transition-colors w-full sm:w-auto">
+              Submit
+            </button>
           </div>
         </form>
       </div>
@@ -141,6 +144,3 @@ const PopUpCardCreate: React.FC<CardProps> = ({ onClose, onUserCreated }) => {
 };
 
 export default PopUpCardCreate;
-
-
-
