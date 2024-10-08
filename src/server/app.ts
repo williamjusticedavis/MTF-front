@@ -62,3 +62,21 @@ export const updateUser = async (id: string, updatedData: {
       throw error;
     }
   };
+
+
+// deleting user
+export const deleteUser = async (userData: { email: string }) => {
+  try{
+    const response = await axios({
+      method: 'delete',
+      url: 'http://localhost:3000/api/deleteUser',
+      data: userData,
+    });
+    return response.data; 
+  }
+
+  catch(error){
+    console.error('Error tryn deleting user:', error);
+    throw error;
+  }
+}
