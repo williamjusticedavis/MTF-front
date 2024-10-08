@@ -1,15 +1,15 @@
-import React, { useState } from 'react';
+import React, {useState } from 'react';
 import { MdDelete } from "react-icons/md";
-import { deleteUser } from '../server/app';
+import { deleteUsers } from '../server/app';
 
-const DeleteUser: React.FC<{ email: string }> = ({ email }) => { 
-
+const DeleteUser: React.FC<{ email: string }> = ({email}) => { 
   const [showModal, setShowModal] = useState(false);
+
 
   const handleDeleteUser = async() => {
     try {
-      const response = await deleteUser(email); 
-      console.log('Deleted User Response:', response);
+ 
+      const response = await deleteUsers(email); 
       alert('User deleted successfully');
       setShowModal(false); 
     } catch (error) {
