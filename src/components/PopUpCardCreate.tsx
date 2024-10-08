@@ -75,7 +75,7 @@ const PopUpCardCreate: React.FC<CardProps> = ({ onClose, onUserCreated }) => {
               placeholder="Last name" 
               className="border border-gray-300 rounded-md p-3 focus:outline-none focus:ring-2 focus:ring-blue-500" 
               onInput={handleNameInput} 
-              onBlur={handleBlur('lastName')} 
+              onBlur={handleBlur('lastName')} // fixed handleBlur invocation
             />
             {errors.lastName && <p className="text-red-500">{errors.lastName.message}</p>}
           </div>
@@ -141,3 +141,6 @@ const PopUpCardCreate: React.FC<CardProps> = ({ onClose, onUserCreated }) => {
 };
 
 export default PopUpCardCreate;
+
+
+

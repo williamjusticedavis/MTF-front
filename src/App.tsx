@@ -4,10 +4,12 @@ import Users from "./pages/Users";
 import Login from "./pages/Login";
 import Otp from './pages/Otp';
 import NotFound from './components/NotFound';
+import { Provider } from "react-redux";
+import store from './redux/store';
 
 function App() {
   return (
-    <>
+    <Provider store={store}>
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<h1>place holder for / page</h1>} />
@@ -19,7 +21,7 @@ function App() {
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
-    </>
+    </Provider>
   );
 }
 
