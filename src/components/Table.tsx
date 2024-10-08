@@ -89,7 +89,7 @@ const Table: React.FC = () => {
                   {user.role}
                 </td>
                 <td className="flex gap-2 items-center justify-center py-2 px-4 border-b text-center">
-                  <DeleteUser />
+                  <DeleteUser email={user.email} />
                   <EditUser
                     id={user._id}
                     firstName={user.firstName}
