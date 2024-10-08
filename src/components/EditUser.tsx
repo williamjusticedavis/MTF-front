@@ -1,17 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import { MdModeEdit } from "react-icons/md";
 import { useForm } from 'react-hook-form';
-import { updateUser } from '../server/app';  // Import the updateUser function
+import { updateUser } from '../server/app';
 import { firstNameValidation, lastNameValidation, roleValidation, emailValidation, phoneValidation } from '../validation/userValidation';
 
 interface UserDetails {
-  id: string;  // The id prop to identify the user
+  id: string;
   firstName: string;
   lastName: string;
   email: string;
   role: string;
   phoneNumber: string;
-  refreshUsers: () => void; // Add refreshUsers as a prop
+  refreshUsers: () => void;
 }
 
 const EditUser: React.FC<UserDetails> = ({ id, firstName, lastName, email, role, phoneNumber, refreshUsers }) => {
@@ -19,7 +19,6 @@ const EditUser: React.FC<UserDetails> = ({ id, firstName, lastName, email, role,
 
   const { register, handleSubmit, setValue, formState: { errors } } = useForm<UserDetails>();
 
-  // Set form values when the modal opens
   useEffect(() => {
     if (showModal) {
       setValue("firstName", firstName);
@@ -32,16 +31,12 @@ const EditUser: React.FC<UserDetails> = ({ id, firstName, lastName, email, role,
 
   const onSubmit = async (data: UserDetails) => {
     try {
-      console.log('Editing user ID:', id); // Log the user ID being edited
-      console.log('Data being sent:', data); // Log the data being sent to the server
-
-      // Call the updateUser function, passing the user ID and updated data
+      console.log('Editing user ID:', id);
+      console.log('Data being sent:', data);
       const response = await updateUser(id, data);
       console.log('Updated User Response:', response);
-
-      // Refresh the users list after successful update
       refreshUsers();
-      setShowModal(false);  // Close the modal after a successful update
+      setShowModal(false);
     } catch (error) {
       console.error('Error updating user', error);
     }
@@ -51,7 +46,7 @@ const EditUser: React.FC<UserDetails> = ({ id, firstName, lastName, email, role,
     e.target.value = e.target.value
       .replace(/^\s+/, '')
       .replace(/\s{2,}/g, ' ')
-      .replace(/[^A-Za-z\s]/g, ''); 
+      .replace(/[^A-Za-z\s]/g, '');
   };
 
   const handleBlur = (fieldName: keyof UserDetails) => (e: React.FocusEvent<HTMLInputElement>) => {
@@ -61,27 +56,28 @@ const EditUser: React.FC<UserDetails> = ({ id, firstName, lastName, email, role,
 
   const handlePhoneInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     e.target.value = e.target.value
-      .replace(/\D/g, '')  // Remove all non-numeric characters
-      .slice(0, 10);  // Limit to 10 digits
+      .replace(/\D/g, '')
+      .slice(0, 10);
   };
 
   return (
     <div>
       <button className="text-gray-500 transition-transform duration-200 transform hover:scale-150 hover:text-gray-800 focus:scale-150 focus:outline-none" onClick={() => setShowModal(true)}>
-      <MdModeEdit />
+        <MdModeEdit />
       </button>
 
       {showModal && (
-        <div className="fixed inset-0 bg-gray-600 bg-opacity-50 flex justify-center items-center z-50">
-          <div className="bg-white p-6 rounded shadow-md w-full max-w-lg">
-            <h2 className="text-xl font-semibold mb-4">Edit User</h2>
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 p-6 transition-opacity duration-300 ease-in-out">
+          <div className="bg-white p-6 rounded-lg shadow-lg max-w-md w-full max-h-[80vh] overflow-y-auto animate-fade-in-up">
+            <h2 className="text-2xl font-semibold text-gray-700 mb-6">Edit User</h2>
             <form onSubmit={handleSubmit(onSubmit)} className="space-y-6" noValidate>
               <div className="flex flex-col space-y-2">
                 <label htmlFor="firstName" className="text-gray-600">First Name</label>
                 <input
                   id="firstName"
                   {...register('firstName', firstNameValidation)}
-                  className="border p-2 w-full"
+                  placeholder="First name"
+                  className="border border-gray-300 rounded-md p-3 focus:outline-none focus:ring-2 focus:ring-green-500"
                   onInput={handleNameInput}
                   onBlur={handleBlur('firstName')}
                 />
@@ -93,21 +89,12 @@ const EditUser: React.FC<UserDetails> = ({ id, firstName, lastName, email, role,
                 <input
                   id="lastName"
                   {...register('lastName', lastNameValidation)}
-                  className="border p-2 w-full"
+                  placeholder="Last name"
+                  className="border border-gray-300 rounded-md p-3 focus:outline-none focus:ring-2 focus:ring-green-500"
                   onInput={handleNameInput}
                   onBlur={handleBlur('lastName')}
                 />
                 {errors.lastName && <p className="text-red-500">{errors.lastName.message}</p>}
-              </div>
-
-              <div className="flex flex-col space-y-2">
-                <label htmlFor="email" className="text-gray-600">Email</label>
-                <input
-                  id="email"
-                  {...register('email', emailValidation)}
-                  className="border p-2 w-full"
-                />
-                {errors.email && <p className="text-red-500">{errors.email.message}</p>}
               </div>
 
               <div className="flex flex-col space-y-2">
@@ -116,7 +103,7 @@ const EditUser: React.FC<UserDetails> = ({ id, firstName, lastName, email, role,
                   <select
                     id="role"
                     {...register('role', roleValidation)}
-                    className="appearance-none border border-gray-300 rounded-md p-3 w-full"
+                    className="appearance-none border border-gray-300 rounded-md p-3 w-full focus:outline-none focus:ring-2 focus:ring-green-500"
                   >
                     <option value="">Select Role</option>
                     <option value="Admin">Admin</option>
@@ -133,26 +120,46 @@ const EditUser: React.FC<UserDetails> = ({ id, firstName, lastName, email, role,
               </div>
 
               <div className="flex flex-col space-y-2">
+                <label htmlFor="email" className="text-gray-600">Email</label>
+                <input
+                  id="email"
+                  type="text"
+                  {...register('email', emailValidation)}
+                  placeholder="Email"
+                  className="border border-gray-300 rounded-md p-3 focus:outline-none focus:ring-2 focus:ring-green-500"
+                />
+                {errors.email && <p className="text-red-500">{errors.email.message}</p>}
+              </div>
+
+              <div className="flex flex-col space-y-2">
                 <label htmlFor="phoneNumber" className="text-gray-600">Phone Number</label>
                 <input
                   id="phoneNumber"
-                  {...register('phoneNumber', phoneValidation)}
-                  className="border p-2 w-full"
+                  type="text"
+                  {...register('phoneNumber', {
+                    ...phoneValidation,
+                    validate: (value) => value.length === 10 || 'Phone number must be exactly 10 digits',
+                  })}
+                  placeholder="Phone number"
+                  className="border border-gray-300 rounded-md p-3 focus:outline-none focus:ring-2 focus:ring-green-500"
                   onInput={handlePhoneInput}
                 />
                 {errors.phoneNumber && <p className="text-red-500">{errors.phoneNumber.message}</p>}
               </div>
 
-              <div className="flex justify-between mt-4">
-                <button type="submit" className="bg-green-500 text-white px-4 py-2 rounded">
-                  Save
-                </button>
+              <div className="flex flex-wrap justify-end space-x-0 space-y-4 md:space-y-0 md:space-x-4 mt-6">
                 <button
                   type="button"
-                  className="bg-red-500 text-white px-4 py-2 rounded"
                   onClick={() => setShowModal(false)}
+                  className="w-full md:w-auto bg-red-500 text-white px-5 py-2 rounded hover:bg-red-600 transition-colors"
                 >
                   Cancel
+                </button>
+                <button
+                  type="submit"
+                  className="w-full md:w-auto bg-green-500 text-white px-5 py-2 rounded hover:bg-green-600 transition-colors"
+                >
+                  Submit
                 </button>
               </div>
             </form>
