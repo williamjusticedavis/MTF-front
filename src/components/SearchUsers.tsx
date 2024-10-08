@@ -1,39 +1,23 @@
 import React, { useState, useEffect, ChangeEvent } from 'react';
-
+import { useDispatch } from 'react-redux';
+import { searchUsers } from '../redux/usersSlice';
+import { AppDispatch } from '../redux/store';
 const SearchUsers: React.FC = () => {
   const [searchInput, setSearchInput] = useState<string>('');
-  const [searchResults, setSearchResults] = useState<object[]>([]);
+  const dispatch:AppDispatch = useDispatch(); 
 
-  function InputChange(event: ChangeEvent<HTMLInputElement>) {
+// This function saves the written letters from the input to searchInput
+  const InputChange = (event: ChangeEvent<HTMLInputElement>) => {
     setSearchInput(event.target.value);
-  }
+  };
 
+// Sends a request to the server with searchUsers function
   useEffect(() => {
     if (searchInput !== '') {
-      async function fetchUserData(query: string) {
-        try {
-          const response = await fetch("http://localhost:3000/users/searchUsers", {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ "inputWords": query }),
-          });
-
-          const data = await response.json();
-
-          if (response.ok) {
-            setSearchResults(data);
-          } else {
-            console.error('Failed to fetch data:', data.message);
-          }
-        } catch (error: any) {
-          console.error('Error fetching user data:', error.message);
-        }
-      }
-      fetchUserData(searchInput);
+      const searchCriteria = { inputWords: searchInput };
+      dispatch(searchUsers(searchCriteria));
     }
-  }, [searchInput]);
+  }, [searchInput, dispatch]);
 
   return (
     <div className="flex justify-end mb-4"> 

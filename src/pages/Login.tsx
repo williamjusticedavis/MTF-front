@@ -11,27 +11,26 @@ const Login: React.FC = () => {
 
  
     const handleSubmit = async (e: React.FormEvent) => {
-        e.preventDefault(); // מונע את שליחת הטופס ברירת המחדל
-        setLoading(true); // מגדיר מצב טעינה
-        setError(null); // מאפס את שגיאת הקודם
+        e.preventDefault();
+        setLoading(true);
+        setError(null); 
 
-        // בדוק אם הדוא"ל תקין
         if (!emailValidation.pattern.value.test(email)) {
-            setError(emailValidation.pattern.message); // מציג את הודעת השגיאה המוגדרת באובייקט הוולידציה
-            setLoading(false); // מסיים את מצב הטעינה
-            return; // מפסיק את הבדיקה
+            setError(emailValidation.pattern.message);
+            setLoading(false); 
+            return;
         }
         
 
         try {
-            const result = await checkEmail({ email }); // כאן נשלח אובייקט עם כתובת הדוא"ל
+            const result = await checkEmail({ email });
             console.log('Email checked successfully:', result);
-            // כאן תוכל להוסיף לוגיקה נוספת לאחר בדיקת הדוא"ל
+
         } catch (error) {
             console.error('Error checking email:', error);
-            setError('Failed to check email. Please try again.'); // מעדכן את מצב השגיאה
+            setError('Failed to check email. Please try again.'); 
         } finally {
-            setLoading(false); // מסיים את מצב הטעינה
+            setLoading(false);
         }
     };
 
@@ -39,14 +38,14 @@ const Login: React.FC = () => {
     return (
         <div className="flex justify-center items-center min-h-screen bg-[url('../../bacLogin.jpeg')] bg-cover bg-center p-4">
             <div className="bg-gray-800 p-6 rounded shadow-md w-full max-w-sm md:max-w-md lg:min-h-[500px]">
-                {/* לוגו */}
+                
                 <div className="flex justify-center mb-6">
                     <img src="../../logo-MTF.png" alt="logo mtf" className="h-24 md:h-44" />
                 </div>
 
-                {/* טופס התחברות */}
+               
                 <form onSubmit={handleSubmit}>
-                    {/* שדה קלט של Email */}
+                    
                     <div className="mb-4">
                         <label htmlFor="email" className="block text-white text-sm font-bold mb-2">
                             Email
@@ -61,7 +60,7 @@ const Login: React.FC = () => {
                         />
                     </div>
 
-                    {/* כפתורים */}
+                   
                     <div className="flex flex-col space-y-4">
                         <button
                             type="submit"
@@ -78,7 +77,7 @@ const Login: React.FC = () => {
                             Create a new account
                         </button>
 
-                        {/* כפתור נוסף */}
+                        
                         <button
                             type="button"
                             className="bg-green-500 text-white w-full px-4 py-2 rounded hover:bg-green-600 transition duration-200"

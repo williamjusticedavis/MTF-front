@@ -3,11 +3,11 @@ import Home from "./pages/home";
 import Users from "./pages/Users";
 import Login from "./pages/Login";
 import NotFound from './components/NotFound';
-import { Provider } from "react-redux"
-import store from './redux/store'
+import { Provider } from "react-redux";
+import store from './redux/store';
+
 function App() {
   return (
-    <>
     <Provider store={store}>
       <BrowserRouter>
         <Routes>
@@ -24,8 +24,7 @@ function App() {
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
-      </Provider>
-    </>
+    </Provider>
   );
 }
 
