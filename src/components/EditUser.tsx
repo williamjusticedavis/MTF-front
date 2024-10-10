@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { MdModeEdit } from "react-icons/md";
 import { useForm } from 'react-hook-form';
 import { updateUser } from '../server/app';
@@ -16,8 +16,8 @@ interface UserDetails {
 
 const EditUser: React.FC<UserDetails> = ({ id, firstName, lastName, email, role, phoneNumber, refreshUsers }) => {
   const [showModal, setShowModal] = useState(false);
-
   const { register, handleSubmit, setValue, formState: { errors } } = useForm<UserDetails>();
+  const modalRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
     if (showModal) {
@@ -28,6 +28,18 @@ const EditUser: React.FC<UserDetails> = ({ id, firstName, lastName, email, role,
       setValue("phoneNumber", phoneNumber);
     }
   }, [showModal, setValue, firstName, lastName, email, role, phoneNumber]);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (modalRef.current && !modalRef.current.contains(event.target as Node)) {
+        setShowModal(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [modalRef]);
 
   const onSubmit = async (data: UserDetails) => {
     try {
@@ -68,7 +80,7 @@ const EditUser: React.FC<UserDetails> = ({ id, firstName, lastName, email, role,
 
       {showModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 p-6 transition-opacity duration-300 ease-in-out">
-          <div className="bg-white p-6 rounded-lg shadow-lg max-w-md w-full max-h-[80vh] overflow-y-auto animate-fade-in-up">
+          <div ref={modalRef} className="bg-white p-6 rounded-lg shadow-lg max-w-md w-full max-h-[80vh] overflow-y-auto animate-fade-in-up">
             <h2 className="text-2xl font-semibold text-gray-700 mb-6">Edit User</h2>
             <form onSubmit={handleSubmit(onSubmit)} className="space-y-6" noValidate>
               <div className="flex flex-col space-y-2">

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef, useEffect } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { firstNameValidation, lastNameValidation, roleValidation, emailValidation, phoneValidation } from '../validation/userValidation';
 import { createUser } from '../server/app';
@@ -18,6 +18,19 @@ type FormData = {
 
 const PopUpCardCreate: React.FC<CardProps> = ({ onClose, onUserCreated }) => {
   const { register, handleSubmit, setValue, formState: { errors } } = useForm<FormData>();
+  const modalRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (modalRef.current && !modalRef.current.contains(event.target as Node)) {
+        onClose();
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [modalRef, onClose]);
 
   const onSubmit: SubmitHandler<FormData> = async (data) => {
     try {
@@ -50,7 +63,7 @@ const PopUpCardCreate: React.FC<CardProps> = ({ onClose, onUserCreated }) => {
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 p-6">
-      <div className="bg-white p-6 rounded-lg shadow-lg max-w-md w-full max-h-[80vh] overflow-y-auto">
+      <div ref={modalRef} className="bg-white p-6 rounded-lg shadow-lg max-w-md w-full max-h-[80vh] overflow-y-auto">
         <h2 className="text-2xl font-semibold text-gray-700 mb-6 text-center">Create New User</h2>
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-6" noValidate>
           <div className="flex flex-col space-y-2">
