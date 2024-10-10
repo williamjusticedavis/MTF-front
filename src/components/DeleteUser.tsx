@@ -1,16 +1,19 @@
-import React, {useState } from 'react';
+import React, { useState } from 'react';
 import { MdDelete } from "react-icons/md";
-import { deleteUsers } from '../server/app';
+import { useDispatch } from 'react-redux'; 
+import { deleteUser } from '../redux/usersSlice'
+import { AppDispatch } from '../redux/store';
 
-const DeleteUser: React.FC<{ email: string }> = ({email}) => { 
+
+const DeleteUser: React.FC<{ email: string }> = ({ email }) => { 
   const [showModal, setShowModal] = useState(false);
+  const dispatch:AppDispatch = useDispatch(); 
 
-
-  const handleDeleteUser = async() => {
-    try {
  
-      await deleteUsers(email); 
-      alert('User deleted successfully');
+  const handleDeleteUser = async () => {
+    try {
+      console.log('Deleting user with email:', email); 
+      await dispatch(deleteUser(email)); 
       setShowModal(false); 
     } catch (error) {
       console.error('Error deleting user', error);
