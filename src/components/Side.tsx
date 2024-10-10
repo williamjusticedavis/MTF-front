@@ -5,9 +5,10 @@ import { TbLogout } from "react-icons/tb";
 // הגדרת הטיפוסים של הפרופס
 interface SideProps {
   isOpen: boolean;
+  showLogoutModal: () => void; // הוסף את הפרופס
 }
 
-const Side: React.FC<SideProps> = ({ isOpen }) => {
+const Side: React.FC<SideProps> = ({ isOpen, showLogoutModal }) => {
   return (
     <aside
       className={`fixed top-0 right-0 w-[150px] h-full bg-black text-white p-4 transition-transform duration-500 ease-in-out flex flex-col justify-between ${isOpen ? 'translate-x-0 opacity-100 scale-100' : 'translate-x-full opacity-0 scale-75'}`}
@@ -36,15 +37,18 @@ const Side: React.FC<SideProps> = ({ isOpen }) => {
         >
           About
         </NavLink>
-
+   
       </div>
 
       {/* כפתור התנתקות בתחתית */}
       <div className='flex flex-col items-center'>
         <h2 className='mb-4'>Msbit</h2>
-        <NavLink to="/logout" className="text-xl hover:text-red-500">
+        <button 
+          className='text-gray-500 transition-transform duration-200 transform hover:text-gray-800 hover:scale-150 focus:scale-150 focus:outline-none'
+          onClick={showLogoutModal} // השתמש בפרופס לפתיחת המודאל
+        >
           <TbLogout />
-        </NavLink>
+        </button>
       </div>
     </aside>
   );
