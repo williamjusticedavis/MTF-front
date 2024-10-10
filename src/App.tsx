@@ -7,7 +7,6 @@ import Otp from './pages/Otp';
 import NotFound from './components/NotFound';
 import { Provider } from "react-redux";
 import store from './redux/store';
-import ProtectedRoute from './utilities/ProtectedRoute';  // Make sure this path is correct
 
 const App: React.FC = () => {
   return (
@@ -19,19 +18,11 @@ const App: React.FC = () => {
           <Route path="/login" element={<Login />} />
           <Route path="/logout" element={<h1>place holder for testing page</h1>} />
 
-          {/* Protect the /login/otp route */}
-          <Route path="/login/otp" element={
-            <ProtectedRoute>
-              <Otp />
-            </ProtectedRoute>
-          } />
+          {/* Unprotected /login/otp route */}
+          <Route path="/login/otp" element={<Otp />} />
 
-          {/* Protect the /users route */}
-          <Route path="/users" element={
-            <ProtectedRoute>
-              <Users />
-            </ProtectedRoute>
-          } />
+          {/* Unprotected /users route */}
+          <Route path="/users" element={<Users />} />
 
           <Route path="*" element={<NotFound />} />
         </Routes>
