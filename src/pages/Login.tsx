@@ -23,28 +23,27 @@ const Login: React.FC = () => {
     
         try {
             const result = await checkEmail({ email });
-            console.log('Response from server:', result); // הדפס את התגובה מהשרת
+            console.log('Response from server:', result);
     
-            if (result.exists) { // בדוק אם המייל קיים
+            if (result.exists) {
                 console.log('Email exists, navigating to OTP page.');
-                navigate('/login/otp'); // מעבר לעמוד ה-OTP
+                localStorage.setItem('email', email); // Store email for OTP page
+                navigate('/login/otp');
             } else {
-                setError('Email not found.'); // הודעה כאשר המייל לא קיים
+                setError('Email not found.');
             }
         } catch (error: any) {
             if (error.response && error.response.status === 404) {
-                setError('Email not found.'); // הודעה עבור מייל לא קיים
+                setError('Email not found.');
             } else {
                 console.error('Error checking email:', error);
-                setError('Failed to check email. Please try again.'); // הודעה עבור שגיאה כללית
+                setError('Failed to check email. Please try again.');
             }
         } finally {
-            setLoading(false); // סיים את הלולאה
+            setLoading(false);
         }
     };
     
-    
-
     return (
         <div className="flex justify-center items-center min-h-screen bg-cover bg-center p-4" style={{ backgroundImage: `url('../../bg.png')` }}>
             <div className="bg-opacity-70 bg-gray-800 p-8 rounded-xl shadow-2xl w-full max-w-sm md:max-w-md lg:max-w-lg">
@@ -76,6 +75,7 @@ const Login: React.FC = () => {
                         <button
                             type="submit"
                             className="bg-teal-500 text-white w-full px-4 py-3 rounded-lg hover:bg-teal-600 transition-all duration-300 shadow-lg hover:shadow-xl"
+                            disabled={loading}
                         >
                             {loading ? 'Loading...' : 'Send Verification Code'}
                         </button>

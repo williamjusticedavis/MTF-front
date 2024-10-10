@@ -33,7 +33,7 @@ export const fetchAllUsers = async () => {
 export const checkEmail = async (userData: { email: string }) => {
   try {
    
-    const response = await axios.post('http://localhost:3000/api/users/login', userData);
+    const response = await axios.post('http://localhost:3000/api/users/check-email', userData);
     console.log(response.data)
     return response.data;
   } catch (error) {
@@ -78,6 +78,28 @@ export const searchUsers = async (searchCriteria: any) => {
     return response.data;
   } catch (error) {
     console.error('Error searching users:', error);
+    throw error;
+  }
+};
+
+
+// Function to verify OTP
+export const verifyOtp = async (otpData: { email: string, otpCode: string }) => {
+  try {
+    const response = await axios.post('http://localhost:3000/api/otp/verify', otpData);
+    return response.data;
+  } catch (error) {
+    console.error('Error verifying OTP:', error);
+    throw error;
+  }
+};
+
+export const sendOtp = async (userData: { email: string }) => {
+  try {
+    const response = await axios.post('http://localhost:3000/api/otp/sendotpbyemail', userData);
+    return response.data;
+  } catch (error) {
+    console.error('Error sending OTP:', error);
     throw error;
   }
 };
