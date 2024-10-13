@@ -6,7 +6,7 @@ interface DeleteSite {
     onCancel: () => void;
 }
 
-const DeleteConfirmation: React.FC<DeleteSite> = ({
+const DeleteSite: React.FC<DeleteSite> = ({
     itemName,
     onDelete,
     onCancel,
@@ -37,4 +37,4 @@ const DeleteConfirmation: React.FC<DeleteSite> = ({
     );
 };
 
-export default DeleteConfirmation;
+export default DeleteSite;

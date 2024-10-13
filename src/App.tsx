@@ -17,7 +17,7 @@ const App: React.FC = () => {
           <Route path="/About" element={<h1>this is About page</h1>} />
           <Route path="/login" element={<Login />} />
           <Route path="/logout" element={<h1>place holder for testing page</h1>} />
-
+          
           {/* Unprotected /login/otp route */}
           <Route path="/login/otp" element={<Otp />} />
 
