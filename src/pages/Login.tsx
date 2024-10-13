@@ -1,14 +1,30 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import { checkEmail } from '../server/app'; 
 import { emailValidation } from '../validation/userValidation';
-import { FcGoogle } from "react-icons/fc";
 import { useNavigate } from 'react-router-dom';
+import {gapi} from  'gapi-script'
+import GoogleLoginButton from '../components/GoogleLoginButton';
 
 const Login: React.FC = () => {
     const [email, setEmail] = useState<string>('');
     const [error, setError] = useState<string | null>(null);
     const [loading, setLoading] = useState<boolean>(false);
     const navigate = useNavigate();
+
+    useEffect(() => {
+        const start = () => {
+          gapi.client.init({
+            clientId: import.meta.env.VITE_GOOGLE_CLIENT_ID,
+            scope: 'email',
+          }).then(() => {
+            console.log("GAPI client initialized.");
+          }).catch((error: any) => {
+            console.error("Error initializing GAPI client:", error);
+          });
+        };
+        gapi.load('client:auth2', start);
+      }, []);
+      
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -88,14 +104,7 @@ const Login: React.FC = () => {
                     <span className="w-1/4 border-b border-gray-400"></span>
                 </div>
 
-                <div className="mt-6">
-                    <button
-                        className="flex items-center justify-center bg-gray-100 text-gray-800 w-full px-4 py-3 rounded-lg border border-gray-300 shadow-lg hover:bg-gray-200 transition-all duration-300 hover:shadow-xl"
-                    >   
-                        <FcGoogle className='w-6 h-6 mr-3'/>
-                        Continue with Google
-                    </button>
-                </div>
+                <GoogleLoginButton/>
             </div>
         </div>
     );

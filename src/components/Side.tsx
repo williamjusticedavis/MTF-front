@@ -37,7 +37,7 @@ const Side: React.FC<SideProps> = ({ isOpen, showLogoutModal }) => {
         >
           About
         </NavLink>
-   
+
       </div>
 
       {/* כפתור התנתקות בתחתית */}

@@ -16,6 +16,7 @@ const Users: React.FC = () => {
   const [isDownloadPopupVisible, setIsDownloadPopupVisible] = useState<boolean>(false);
   const navigate = useNavigate();
 
+  // מצב למודאל התנתקות
   const [showModal, setShowModal] = useState(false);
 
   const toggleAside = () => {
