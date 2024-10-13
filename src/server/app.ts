@@ -33,7 +33,7 @@ export const fetchAllUsers = async () => {
 export const checkEmail = async (userData: { email: string }) => {
   try {
    
-    const response = await axios.post('http://localhost:3000/api/users/login', userData);
+    const response = await axios.post('http://localhost:3000/api/users/check-email', userData);
     console.log(response.data)
     return response.data;
   } catch (error) {
@@ -60,7 +60,7 @@ export const updateUser = async (id: string, updatedData: {
 };
 
 // Deleting user
-export const deleteUsers = async (email: string) => {
+export const deleteUser = async (email: string) => {
   try {
     const response = await axios.delete(`http://localhost:3000/api/users/deleteUser/${email}`);
     return response.data;
@@ -78,6 +78,47 @@ export const searchUsers = async (searchCriteria: any) => {
     return response.data;
   } catch (error) {
     console.error('Error searching users:', error);
+    throw error;
+  }
+};
+
+
+// Function to verify OTP
+export const verifyOtp = async (otpData: { email: string, otpCode: string }) => {
+  try {
+    const response = await axios.post('http://localhost:3000/api/otp/verify', otpData);
+    return response.data;
+  } catch (error) {
+    console.error('Error verifying OTP:', error);
+    throw error;
+  }
+};
+
+export const sendOtp = async (userData: { email: string }) => {
+  try {
+    const response = await axios.post('http://localhost:3000/api/otp/sendotpbyemail', userData);
+    return response.data;
+  } catch (error) {
+    console.error('Error sending OTP:', error);
+    throw error;
+  }
+};
+
+export const checkToken = async (token: string) => {
+  try {
+    const response = await axios.post('http://localhost:3000/api/users/auth/google', { token });
+    
+    if (response.data.token) {
+      // Store the token in local storage
+      localStorage.setItem('token', response.data.token);
+      console.log("Token saved to local storage:", response.data.token);
+    } else {
+      console.error("Token was not provided in the response.");
+    }
+    
+    return response.data;
+  } catch (error) {
+    console.error('Error verifying token:', error);
     throw error;
   }
 };

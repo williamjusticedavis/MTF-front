@@ -1,14 +1,30 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import { checkEmail } from '../server/app'; 
 import { emailValidation } from '../validation/userValidation';
-import { FcGoogle } from "react-icons/fc";
 import { useNavigate } from 'react-router-dom';
+import {gapi} from  'gapi-script'
+import GoogleLoginButton from '../components/GoogleLoginButton';
 
 const Login: React.FC = () => {
     const [email, setEmail] = useState<string>('');
     const [error, setError] = useState<string | null>(null);
     const [loading, setLoading] = useState<boolean>(false);
     const navigate = useNavigate();
+
+    useEffect(() => {
+        const start = () => {
+          gapi.client.init({
+            clientId: import.meta.env.VITE_GOOGLE_CLIENT_ID,
+            scope: 'email',
+          }).then(() => {
+            console.log("GAPI client initialized.");
+          }).catch((error: any) => {
+            console.error("Error initializing GAPI client:", error);
+          });
+        };
+        gapi.load('client:auth2', start);
+      }, []);
+      
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -23,28 +39,27 @@ const Login: React.FC = () => {
     
         try {
             const result = await checkEmail({ email });
-            console.log('Response from server:', result); // הדפס את התגובה מהשרת
+            console.log('Response from server:', result);
     
-            if (result.exists) { // בדוק אם המייל קיים
+            if (result.exists) {
                 console.log('Email exists, navigating to OTP page.');
-                navigate('/login/otp'); // מעבר לעמוד ה-OTP
+                localStorage.setItem('email', email); // Store email for OTP page
+                navigate('/login/otp');
             } else {
                 setError('Email not found.'); // הודעה כאשר המייל לא קיים
             }
         } catch (error: any) {
             if (error.response && error.response.status === 404) {
-                setError('Email not found.'); // הודעה עבור מייל לא קיים
+                setError('Email not found.');
             } else {
                 console.error('Error checking email:', error);
-                setError('Failed to check email. Please try again.'); // הודעה עבור שגיאה כללית
+                setError('Failed to check email. Please try again.');
             }
         } finally {
             setLoading(false); // סיים את הלולאה
         }
     };
     
-    
-
     return (
         <div className="flex justify-center items-center min-h-screen bg-cover bg-center p-4" style={{ backgroundImage: `url('../../bg.png')` }}>
             <div className="bg-opacity-70 bg-gray-800 p-8 rounded-xl shadow-2xl w-full max-w-sm md:max-w-md lg:max-w-lg">
@@ -76,6 +91,7 @@ const Login: React.FC = () => {
                         <button
                             type="submit"
                             className="bg-teal-500 text-white w-full px-4 py-3 rounded-lg hover:bg-teal-600 transition-all duration-300 shadow-lg hover:shadow-xl"
+                            disabled={loading}
                         >
                             {loading ? 'Loading...' : 'Send Verification Code'}
                         </button>
@@ -88,14 +104,7 @@ const Login: React.FC = () => {
                     <span className="w-1/4 border-b border-gray-400"></span>
                 </div>
 
-                <div className="mt-6">
-                    <button
-                        className="flex items-center justify-center bg-gray-100 text-gray-800 w-full px-4 py-3 rounded-lg border border-gray-300 shadow-lg hover:bg-gray-200 transition-all duration-300 hover:shadow-xl"
-                    >   
-                        <FcGoogle className='w-6 h-6 mr-3'/>
-                        Continue with Google
-                    </button>
-                </div>
+                <GoogleLoginButton/>
             </div>
         </div>
     );
