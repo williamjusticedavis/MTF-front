@@ -104,12 +104,21 @@ export const sendOtp = async (userData: { email: string }) => {
   }
 };
 
-export const checkToken = async (token:string) => {
+export const checkToken = async (token: string) => {
   try {
-      const response = await axios.post('http://localhost:3000/api/users/auth/google', { token });
-      return response.data;
+    const response = await axios.post('http://localhost:3000/api/users/auth/google', { token });
+    
+    if (response.data.token) {
+      // Store the token in local storage
+      localStorage.setItem('token', response.data.token);
+      console.log("Token saved to local storage:", response.data.token);
+    } else {
+      console.error("Token was not provided in the response.");
+    }
+    
+    return response.data;
   } catch (error) {
-      console.error('Error searching users:', error);
-      throw error;
+    console.error('Error verifying token:', error);
+    throw error;
   }
 };
