@@ -46,6 +46,15 @@ const Side: React.FC<SideProps> = ({ isOpen, showLogoutModal }) => {
           About
         </NavLink>
 
+        <NavLink
+          to="/Map"
+          className={({ isActive }) =>
+            isActive ? 'text-green-400 border-b-2 border-green-400' : 'hover:border-b-2 hover:border-green-400'
+          }
+        >
+          Map
+        </NavLink>
+
       </div>
 
       {/* כפתור התנתקות בתחתית */}
