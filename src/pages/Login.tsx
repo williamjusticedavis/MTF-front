@@ -46,7 +46,7 @@ const Login: React.FC = () => {
                 localStorage.setItem('email', email); // Store email for OTP page
                 navigate('/login/otp');
             } else {
-                setError('Email not found.'); // הודעה כאשר המייל לא קיים
+                setError('Email not found.');
             }
         } catch (error: any) {
             if (error.response && error.response.status === 404) {
@@ -56,7 +56,7 @@ const Login: React.FC = () => {
                 setError('Failed to check email. Please try again.');
             }
         } finally {
-            setLoading(false); // סיים את הלולאה
+            setLoading(false);
         }
     };
     

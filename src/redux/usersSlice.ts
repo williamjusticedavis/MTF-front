@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
-import axios from 'axios';
+import api from '../utilities/axiosInstance';
 
 interface User {
     _id: string;
@@ -22,11 +22,11 @@ const initialState: UsersState = {
     error: null,
 };
 
-// Fetch users with axios
+// Fetch users with token authentication
 export const fetchUsers = createAsyncThunk<User[], void>(
     'users/fetchUsers',
     async () => {
-        const response = await axios.get('http://localhost:3000/api/users/users');
+        const response = await api.get('/users/users');
         return response.data.data;
     }
 );
@@ -34,7 +34,7 @@ export const fetchUsers = createAsyncThunk<User[], void>(
 export const searchUsers = createAsyncThunk<User[], { inputWords: string }>(
     'users/searchUsers',
     async (searchCriteria) => {
-        const response = await axios.post('http://localhost:3000/api/users/users/searchUsers', searchCriteria);
+        const response = await api.post('/users/users/searchUsers', searchCriteria);
         return response.data.data;
     }
 );
@@ -42,7 +42,7 @@ export const searchUsers = createAsyncThunk<User[], { inputWords: string }>(
 export const deleteUser = createAsyncThunk<void, string>(
     'users/deleteUser',
     async (email) => {
-        const response = await axios.delete(`http://localhost:3000/api/users/deleteUser/${email}`);
+        const response = await api.delete(`/users/deleteUser/${email}`);
         return response.data.data;
     }
 );
@@ -93,6 +93,5 @@ const userSlice = createSlice({
             });
     },
 });
-
 
 export default userSlice.reducer;

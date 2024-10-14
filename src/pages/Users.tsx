@@ -16,7 +16,6 @@ const Users: React.FC = () => {
   const [isDownloadPopupVisible, setIsDownloadPopupVisible] = useState<boolean>(false);
   const navigate = useNavigate();
 
-  // מצב למודאל התנתקות
   const [showModal, setShowModal] = useState(false);
 
   const toggleAside = () => {
@@ -41,6 +40,8 @@ const Users: React.FC = () => {
   };
 
   const handleLogOut = () => {
+    localStorage.removeItem('token')
+    localStorage.removeItem('email')
     navigate("/login");
   };
 
@@ -96,7 +97,6 @@ const Users: React.FC = () => {
           <PopUpCardCreate onClose={hideCard} onUserCreated={handleUserCreated} />
         )}
 
-        {/* טבלה */}
         <div className="container mx-auto bg-white shadow-md rounded-lg p-6">
           <Table key={tableKey} />
         </div>
