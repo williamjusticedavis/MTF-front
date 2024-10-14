@@ -32,11 +32,12 @@ const mapStyle = [
   }
 ];
 
+// Define square bounds around Israel's approximate center
 const bounds = {
-  north: 85,
-  south: -85,
-  west: -179,
-  east: 179
+  north: 33.5,
+  south: 29.0,
+  west: 30.5,
+  east: 39.5
 };
 
 const Map: React.FC = () => {
@@ -45,7 +46,6 @@ const Map: React.FC = () => {
       const lat = event.latLng.lat();
       const lng = event.latLng.lng();
       console.log("Right-clicked at:", { lat, lng });
-      // Add your desired functionality here, such as opening a custom menu
     }
   };
 
@@ -59,20 +59,20 @@ const Map: React.FC = () => {
           mapTypeId: 'hybrid',
           mapTypeControl: false,
           fullscreenControl: false,
-          streetViewControl: true,
+          streetViewControl: false,
           zoomControl: false,
           clickableIcons: false,
           styles: mapStyle,
-          minZoom: 2,
+          minZoom: 2,  // Allow maximum zoom-out for larger view
           maxZoom: 18,
           restriction: {
             latLngBounds: bounds,
-            strictBounds: true
+            strictBounds: true // Keep within bounds
           }
         }}
         onRightClick={handleRightClick}
       >
-        {/* Additional map components can go here */}
+        {/* Additional map components */}
       </GoogleMap>
     </LoadScript>
   );

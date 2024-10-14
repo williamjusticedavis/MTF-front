@@ -59,7 +59,7 @@ const Users: React.FC = () => {
 
   return (
     <div className={`flex flex-col min-h-screen transition-transform duration-300 ${isAsideOpen ? 'mr-[150px]' : 'mr-0'}`}>
-      <Header toggleAside={toggleAside} />
+      <Header toggleAside={toggleAside} color="bg-white"/>
 
       <main className="flex-grow bg-gray-100 p-4">
         <div className="flex flex-col space-y-4 md:space-y-0 md:flex-row md:justify-between items-center mb-4">
