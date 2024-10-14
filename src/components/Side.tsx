@@ -15,9 +15,10 @@ const Side: React.FC<SideProps> = ({ isOpen, showLogoutModal }) => {
       style={{ zIndex: 1000 }}
     >
       {/* לוגו */}
-      <div className='flex justify-center items-center'>
-        <img src="../../egale.png" alt="egale icon" />
+      <div className='flex justify-center items-center mt-3'>
+        <img src="../../logo.svg" alt="logo icon" />
       </div>
+
 
       {/* קישורים במרכז */}
       <div className='flex flex-col items-center space-y-4'>
@@ -58,9 +59,9 @@ const Side: React.FC<SideProps> = ({ isOpen, showLogoutModal }) => {
       </div>
 
       {/* כפתור התנתקות בתחתית */}
-      <div className='flex flex-col items-center'>
+      <div className='flex flex-col items-center mb-2 '>
         <h2 className='mb-4'>Msbit</h2>
-        <button 
+        <button
           className='text-gray-500 transition-transform duration-200 transform hover:text-red-800 hover:scale-150 focus:scale-150 focus:outline-none'
           onClick={showLogoutModal} // השתמש בפרופס לפתיחת המודאל
         >

@@ -3,7 +3,7 @@ import DeleteUser from "./DeleteUser";
 import EditUser from "./EditUser";
 import { SyncLoader } from "react-spinners";
 import { useDispatch, useSelector } from "react-redux";
-import { RootState,AppDispatch } from "../redux/store";
+import { RootState, AppDispatch } from "../redux/store";
 import { fetchUsers } from "../redux/usersSlice";
 
 const Table: React.FC = () => {
