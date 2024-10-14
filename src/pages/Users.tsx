@@ -59,10 +59,10 @@ const Users: React.FC = () => {
 
   return (
     <div className={`flex flex-col min-h-screen transition-transform duration-300 ${isAsideOpen ? 'mr-[150px]' : 'mr-0'}`}>
-      <Header toggleAside={toggleAside} />
+      <Header toggleAside={toggleAside} color="bg-white"/>
 
-      <main className="flex-grow bg-gray-100 p-4">
-        <div className="flex flex-col space-y-4 md:space-y-0 md:flex-row md:justify-between items-center mb-4">
+      <main className="flex-grow bg-gray-100 p-4 container mx-auto max-w-full">
+        <div className="flex flex-col space-y-4 md:space-y-0 md:flex-row md:flex-wrap md:justify-between items-center mb-4">
           <button
             onClick={showCard}
             className="flex items-center justify-center p-2 bg-green-500 text-white rounded hover:bg-green-600 transition duration-300 shadow w-full md:w-auto md:max-w-xs"
@@ -71,7 +71,7 @@ const Users: React.FC = () => {
             <span className="ml-2 hidden md:inline">Add User</span>
           </button>
 
-          <div className="flex flex-col space-y-2 md:space-y-0 md:flex-row items-center md:ml-4">
+          <div className="flex flex-col space-y-2 md:space-y-0 md:flex-row items-center md:ml-4 md:flex-wrap">
             <button
               onClick={showDownloadPopup}
               className="flex items-center justify-center p-2 bg-green-500 text-white rounded hover:bg-green-600 transition duration-300 shadow w-full md:w-auto md:mr-2"
@@ -85,8 +85,6 @@ const Users: React.FC = () => {
           </div>
         </div>
 
-
-
         {/* פופ-אפ להורדה */}
         {isDownloadPopupVisible && (
           <DownloadUserList setIsDownloadPopupVisible={setIsDownloadPopupVisible} />
@@ -97,10 +95,11 @@ const Users: React.FC = () => {
           <PopUpCardCreate onClose={hideCard} onUserCreated={handleUserCreated} />
         )}
 
-        <div className="container mx-auto bg-white shadow-md rounded-lg p-6">
+        <div className="container mx-auto bg-white shadow-md rounded-lg p-6 max-w-full">
           <Table key={tableKey} />
         </div>
       </main>
+
 
       <Footer />
       <Side isOpen={isAsideOpen} showLogoutModal={() => setShowModal(true)} />

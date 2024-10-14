@@ -52,7 +52,7 @@ const Side: React.FC<SideProps> = ({ isOpen, showLogoutModal }) => {
       <div className='flex flex-col items-center'>
         <h2 className='mb-4'>Msbit</h2>
         <button 
-          className='text-gray-500 transition-transform duration-200 transform hover:text-gray-800 hover:scale-150 focus:scale-150 focus:outline-none'
+          className='text-gray-500 transition-transform duration-200 transform hover:text-red-800 hover:scale-150 focus:scale-150 focus:outline-none'
           onClick={showLogoutModal} // השתמש בפרופס לפתיחת המודאל
         >
           <TbLogout />

@@ -3,6 +3,7 @@ import Footer from '../components/Footer';
 import Header from '../components/Header';
 import { useNavigate } from 'react-router-dom';
 import Side from '../components/Side';
+import TableSide from '../components/TableSite';
 
 
 
@@ -33,9 +34,35 @@ const Websites: React.FC = () => {
     }, []);
     return (
         <div className={`flex flex-col min-h-screen transition-transform duration-300 ${isAsideOpen ? 'mr-[150px]' : 'mr-0'}`}>
-            <Header toggleAside={toggleAside} />
+            <Header toggleAside={toggleAside} color="bg-white"/>
 
-            <main className="flex-grow bg-gray-100 p-4">
+            <main className="flex-grow bg-gray-100 p-4 container mx-auto max-w-full">
+                <div className="flex flex-col space-y-4 md:space-y-0 md:flex-row md:flex-wrap md:justify-between items-center mb-4">
+                    <button
+                        // onClick={}
+                        className="flex items-center justify-center p-2 bg-green-500 text-white rounded hover:bg-green-600 transition duration-300 shadow w-full md:w-auto md:max-w-xs"
+                    >
+                        <img src="../../add user wite.png" alt="Add User" className="w-6 h-6 inline-block" />
+                        <span className="ml-2 hidden md:inline">Add Side</span>
+                    </button>
+
+                    <div className="flex flex-col space-y-2 md:space-y-0 md:flex-row items-center md:ml-4 md:flex-wrap">
+                        <button
+                            // onClick={}
+                            className="flex items-center justify-center p-2 bg-green-500 text-white rounded hover:bg-green-600 transition duration-300 shadow w-full md:w-auto md:mr-2"
+                        >
+                            <img src="../../xl wite.png" alt="Download" className="w-6 h-6 inline-block" />
+                            <span className="ml-2 hidden md:inline">Download List</span>
+                        </button>
+                        <div className="w-full md:w-auto mt-2 md:mt-0">
+                            {/* search */}
+                        </div>
+                    </div>
+                </div>
+
+                <div className="container mx-auto bg-white shadow-md rounded-lg p-6">
+                    <TableSide />
+                </div>
 
             </main>
 
