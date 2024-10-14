@@ -9,10 +9,6 @@ import DeleteSite from "./DeleteSite";
 
 
 const TableSide: React.FC = () => {
-    const test = () =>{
-        console.log("test");
-        
-    }
     const dispatch: AppDispatch = useDispatch();
 
     const loading = useSelector((state: RootState) => state.users.loading);
@@ -85,7 +81,7 @@ const TableSide: React.FC = () => {
                     <td className="py-2 px-4 border-b text-center text-xs sm:text-base truncate"></td>
                     <td className="py-2 px-4 border-b text-center text-xs sm:text-base truncate"></td>
                     <td className="flex gap-2 items-center justify-center py-2 px-4 border-b text-center">
-                        <DeleteSite itemName={""} onDelete={test} onCancel={test}/>
+                        <DeleteSite siteId={"site._id"} onDelete={() => console.log('Deleted', "site._id")} />
                         <EditSite/>
                     </td>
 
