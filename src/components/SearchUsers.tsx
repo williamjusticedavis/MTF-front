@@ -1,6 +1,6 @@
 import React, { useState, useEffect, ChangeEvent } from 'react';
 import { useDispatch } from 'react-redux';
-import { searchUsers } from '../redux/usersSlice';
+import { fetchUsers, searchUsers } from '../redux/usersSlice';
 import { AppDispatch } from '../redux/store';
 const SearchUsers: React.FC = () => {
   const [searchInput, setSearchInput] = useState<string>('');
@@ -11,11 +11,15 @@ const SearchUsers: React.FC = () => {
     setSearchInput(event.target.value);
   };
 
-// Sends a request to the server with searchUsers function
+
   useEffect(() => {
-    if (searchInput !== '') {
+    if (searchInput.trim()) {
+      // Perform the search with the provided input
       const searchCriteria = { inputWords: searchInput };
       dispatch(searchUsers(searchCriteria));
+    } else {
+      // Fetch all users when the search input is empty
+      dispatch(fetchUsers());
     }
   }, [searchInput, dispatch]);
 

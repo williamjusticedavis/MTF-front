@@ -1,49 +1,80 @@
-import React from "react";
+import React, { useState } from 'react';
+import axios from 'axios';
 import { MdDelete } from "react-icons/md";
 
-interface DeleteSite {
-    itemName: string;
-    onDelete: () => void;
-    onCancel: () => void;
+interface DeleteSiteProps {
+  siteId: string;  // ID of the site to be deleted
+  onDelete: () => void; // Callback to refresh or update the list after deletion
 }
 
-const DeleteSite: React.FC<DeleteSite> = ({
-    itemName,
-    onDelete,
-    onCancel,
- }) => {
-    return (
-        <div>
-            <button
-                className='text-gray-500 transition-transform duration-200 transform hover:text-gray-800 hover:scale-150 focus:scale-150 focus:outline-none'
-            >
-                <MdDelete />
-            </button>
+const DeleteSite: React.FC<DeleteSiteProps> = ({ siteId, onDelete }) => {
+  const [showModal, setShowModal] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
-            <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-60 z-50">
-                <div className="bg-gray-800 text-white rounded-lg shadow-lg p-6 max-w-md w-full">
-                    <h2 className="text-xl font-semibold mb-4">Confirm Deletion</h2>
-                    <p className="mb-6 text-gray-400">
-                        Are you sure you want to delete <span className="text-white">{itemName}</span>? This action cannot be undone.
-                    </p>
-                    <div className="flex justify-end space-x-4">
-                        <button
-                            className="px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded"
-                            onClick={onDelete}
-                        >
-                            Confirm
-                        </button>
-                        <button
-                            className="px-4 py-2 bg-gray-700 hover:bg-gray-600 text-white rounded"
-                            onClick={onCancel}
-                        >
-                            Cancel
-                        </button>
-                    </div>
-                </div>
+  const handleDeleteSite = async () => {
+    setLoading(true);
+    try {
+      // Replace 'your-api-url' with the actual base URL of your API
+      const response = await axios.delete(`https://your-api-url.com/sites/delete/${siteId}`, {
+        headers: {
+          'Authorization': `Bearer ${localStorage.getItem('token')}`, // Optional: Attach token if needed
+        },
+      });
+      console.log('Delete response:', response.data);
+
+      setShowModal(false);
+      onDelete();  // Call the callback to update the list of sites after successful deletion
+    } catch (err) {
+      setError('Failed to delete the site');
+      console.error('Error deleting site:', err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <div>
+      <button 
+        className='text-gray-500 transition-transform duration-200 transform hover:text-gray-800 hover:scale-150 focus:scale-150 focus:outline-none'
+        onClick={() => setShowModal(true)}
+      >
+        <MdDelete />
+      </button>
+
+      {showModal && (
+        <div className="fixed inset-0 bg-gray-600 bg-opacity-50 flex justify-center items-center">
+          <div className="bg-white p-6 rounded shadow-md w-full max-w-md">
+            <h2 className="text-xl font-semibold mb-4">Confirm Deletion</h2>
+            <p className="text-gray-700 mb-6">
+              Are you sure you want to delete this site? This action cannot be undone.
+            </p>
+
+            {error && <p className="text-red-500">{error}</p>}
+
+            <div className="flex justify-between mt-4">
+              <button
+                type="button"
+                className="bg-red-500 text-white px-4 py-2 rounded"
+                onClick={handleDeleteSite}
+                disabled={loading}
+              >
+                {loading ? 'Deleting...' : 'Confirm Delete'}
+              </button>
+              <button
+                type="button"
+                className="bg-gray-500 text-white px-4 py-2 rounded"
+                onClick={() => setShowModal(false)}
+                disabled={loading}
+              >
+                Cancel
+              </button>
             </div>
+          </div>
         </div>
-    );
+      )}
+    </div>
+  );
 };
 
 export default DeleteSite;
