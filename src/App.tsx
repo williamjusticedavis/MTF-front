@@ -7,6 +7,7 @@ import Otp from './pages/Otp';
 import NotFound from './components/NotFound';
 import { Provider } from "react-redux";
 import store from './redux/store';
+import Websites from './pages/Websites';
 import Map from './pages/MapPage';
 
 const App: React.FC = () => {
@@ -25,6 +26,7 @@ const App: React.FC = () => {
 
           {/* Unprotected /users route */}
           <Route path="/users" element={<Users />} />
+          <Route path="/websites" element={<Websites/>} />
 
           <Route path="*" element={<NotFound />} />
         </Routes>

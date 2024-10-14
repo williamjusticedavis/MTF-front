@@ -30,6 +30,14 @@ const Side: React.FC<SideProps> = ({ isOpen, showLogoutModal }) => {
           users
         </NavLink>
         <NavLink
+          to="/websites"
+          className={({ isActive }) =>
+            isActive ? 'text-green-400 border-b-2 border-green-400' : 'hover:border-b-2 hover:border-green-400'
+          }
+        >
+          websites
+        </NavLink>
+        <NavLink
           to="/about"
           className={({ isActive }) =>
             isActive ? 'text-green-400 border-b-2 border-green-400' : 'hover:border-b-2 hover:border-green-400'
