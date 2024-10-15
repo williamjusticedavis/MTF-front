@@ -121,3 +121,18 @@ export const checkToken = async (token: string) => {
     throw error;
   }
 };
+
+export const createSite = async (siteData: object) => {
+  try {
+    console.log(siteData);
+
+    const response = await api.post('/createSite',siteData);
+    
+  console.log(response.data);
+    
+    return response.data;
+  } catch (error) {
+    console.error('Error verifying token:', error);
+    throw error;
+  }
+};
