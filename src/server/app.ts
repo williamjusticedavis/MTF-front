@@ -132,3 +132,13 @@ export const fetchAllSites = async () => {
     return [];
   }
 };
+
+export const createSite = async (siteData: object) => {
+  try {
+    const response = await api.post('/site/createSite',siteData);
+    return response.data;
+  } catch (error) {
+    console.error('Error verifying token:', error);
+    throw error;
+  }
+};

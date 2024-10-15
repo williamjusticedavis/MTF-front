@@ -7,8 +7,8 @@ import Otp from './pages/Otp';
 import NotFound from './components/NotFound';
 import { Provider } from "react-redux";
 import store from './redux/store';
-import Websites from './pages/Websites';
 import Map from './pages/MapPage';
+import Websites from './pages/Websites';
 
 const App: React.FC = () => {
   return (
