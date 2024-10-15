@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
 import api from '../utilities/axiosInstance';
 
-interface User {
+export interface User {
     _id: string;
     firstName: string;
     lastName: string;
@@ -10,7 +10,7 @@ interface User {
     role: string;
 }
 
-interface UsersState {
+export interface UsersState {
     users: User[];
     loading: boolean;
     error: string | null;
@@ -21,6 +21,26 @@ const initialState: UsersState = {
     loading: false,
     error: null,
 };
+
+
+export interface Site {
+    name: string;
+    address: string;
+}
+
+export interface SiteState {
+    sites: Site[];
+    loading: boolean;
+    error: string | null;
+}
+
+const initialSitesState: SiteState = {
+    sites: [],
+    loading: false,
+    error: null,
+};
+
+
 
 // Fetch users with token authentication
 export const fetchUsers = createAsyncThunk<User[], void>(
@@ -39,6 +59,14 @@ export const searchUsers = createAsyncThunk<User[], { inputWords: string }>(
     }
 );
 
+export const searchSite = createAsyncThunk<Site[], { inputWords: string }>(
+    'users/searchSite',
+    async (searchCriteria) => {
+        const response = await api.post('/users/users/searchSite', searchCriteria);
+        return response.data.data;
+    }
+);
+
 export const deleteUser = createAsyncThunk<void, string>(
     'users/deleteUser',
     async (email) => {
@@ -53,6 +81,8 @@ const userSlice = createSlice({
     reducers: {},
     extraReducers: (builder) => {
         builder
+
+            //fetchUsers
             .addCase(fetchUsers.pending, (state) => {
                 state.loading = true;
                 state.error = null;
@@ -66,6 +96,7 @@ const userSlice = createSlice({
                 state.error = action.error.message || 'Something went wrong';
             })
 
+            //searchUsers
             .addCase(searchUsers.pending, (state) => {
                 state.loading = true;
                 state.error = null;
@@ -79,6 +110,7 @@ const userSlice = createSlice({
                 state.error = action.error.message || 'Failed to search users';
             })
 
+            //deleteUser
             .addCase(deleteUser.pending, (state) => {
                 state.loading = true;
                 state.error = null;
@@ -94,4 +126,27 @@ const userSlice = createSlice({
     },
 });
 
-export default userSlice.reducer;
+const siteSlice = createSlice({
+    name: 'sites',
+    initialState: initialSitesState,
+    reducers: {},
+    extraReducers: (builder) => {
+        builder
+            //searchSite
+            .addCase(searchSite.pending, (state) => {
+                state.loading = true;
+                state.error = null;
+            })
+            .addCase(searchSite.fulfilled, (state, action: PayloadAction<Site[]>) => {
+                state.loading = false;
+                state.sites = action.payload;
+            })
+            .addCase(searchSite.rejected, (state, action) => {
+                state.loading = false;
+                state.error = action.error.message || 'Failed to search sites';
+            });
+    },
+});
+
+export const userReducer = userSlice.reducer;
+export const siteReducer = siteSlice.reducer;

@@ -1,10 +1,10 @@
 import { configureStore } from '@reduxjs/toolkit';
-import usersReducer from './usersSlice';
+import { userReducer, siteReducer } from './usersSlice';
 
-// create store by configureStore
-const store:any = configureStore({
+const store = configureStore({
     reducer: {
-        users: usersReducer,
+        users: userReducer,
+        sites: siteReducer,
     },
 });
 
