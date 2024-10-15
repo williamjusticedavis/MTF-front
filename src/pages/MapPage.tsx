@@ -4,10 +4,14 @@ import Footer from '../components/Footer';
 import Side from '../components/Side';
 import Map from '../components/Map';
 import { useNavigate } from 'react-router-dom';
+import CreateSitePopup from '../components/CreateSiteOnMap';
+
 
 const MapPage: React.FC = () => {
   const [isAsideOpen, setAsideOpen] = useState<boolean>(false);
   const [showModal, setShowModal] = useState(false);
+  const [showSiteModal, setShowSireModal] = useState(false);
+  const [popupPosition, setPopupPosition] = useState<{ x: number; y: number } | null>(null);
   const navigate = useNavigate();
 
   const toggleAside = () => {
@@ -19,6 +23,13 @@ const MapPage: React.FC = () => {
     localStorage.removeItem('email');
     navigate("/login");
   };
+
+  const handleRightClick = (event: React.MouseEvent) => {
+    event.preventDefault(); 
+    setPopupPosition({ x: event.clientX, y: event.clientY }); 
+    setShowSireModal(true); 
+  };
+
 
   useEffect(() => {
     const handleResize = () => {
@@ -38,13 +49,21 @@ const MapPage: React.FC = () => {
         <Side isOpen={isAsideOpen} showLogoutModal={() => setShowModal(true)} />
 
         <main className="flex-grow">
-          <div className="h-full">
+          <div onContextMenu={handleRightClick} className="h-full">
             <Map />
           </div>
         </main>
       </div>
 
       <Footer />
+
+      {/* Popup for creating a new site */}
+      {showSiteModal && popupPosition && (
+        <CreateSitePopup
+          onClose={() => setShowSireModal(false)}
+          position={popupPosition} /
+        >
+      )}
 
       {/* Logout Modal */}
       {showModal && (
