@@ -121,3 +121,14 @@ export const checkToken = async (token: string) => {
     throw error;
   }
 };
+
+export const fetchAllSites = async () => {
+  try {
+    const response = await api.get('/getAllSites');
+    console.log(response.data.data);
+    return response.data.data;
+  } catch (error) {
+    console.error('Error fetching users:', error);
+    return [];
+  }
+};

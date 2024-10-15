@@ -15,9 +15,10 @@ const Side: React.FC<SideProps> = ({ isOpen, showLogoutModal }) => {
       style={{ zIndex: 1000 }}
     >
       {/* לוגו */}
-      <div className='flex justify-center items-center'>
-        <img src="../../egale.png" alt="egale icon" />
+      <div className='flex justify-center items-center mt-3'>
+        <img src="../../logo.svg" alt="logo icon" />
       </div>
+
 
       {/* קישורים במרכז */}
       <div className='flex flex-col items-center space-y-4'>
@@ -46,13 +47,22 @@ const Side: React.FC<SideProps> = ({ isOpen, showLogoutModal }) => {
           About
         </NavLink>
 
+        <NavLink
+          to="/Map"
+          className={({ isActive }) =>
+            isActive ? 'text-green-400 border-b-2 border-green-400' : 'hover:border-b-2 hover:border-green-400'
+          }
+        >
+          Map
+        </NavLink>
+
       </div>
 
       {/* כפתור התנתקות בתחתית */}
-      <div className='flex flex-col items-center'>
+      <div className='flex flex-col items-center mb-2 '>
         <h2 className='mb-4'>Msbit</h2>
-        <button 
-          className='text-gray-500 transition-transform duration-200 transform hover:text-gray-800 hover:scale-150 focus:scale-150 focus:outline-none'
+        <button
+          className='text-gray-500 transition-transform duration-200 transform hover:text-red-800 hover:scale-150 focus:scale-150 focus:outline-none'
           onClick={showLogoutModal} // השתמש בפרופס לפתיחת המודאל
         >
           <TbLogout />
