@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { SyncLoader } from 'react-spinners';
 import EditSite from './EditSite';
 import { fetchAllSites } from '../server/app'; // יבוא הפונקציה שמבצעת את קריאת ה-API
+import DeleteSite from './DeleteSite';
 
 interface Site {
   id: string;
@@ -84,7 +85,7 @@ const TableSide: React.FC = () => {
               <td className="py-2 px-4 border-b text-center text-xs sm:text-base truncate">{site.permission}</td>
               <td className="py-2 px-4 border-b text-center text-xs sm:text-base truncate">{site.userStatus}</td>
               <td className="flex gap-2 items-center justify-center py-2 px-4 border-b text-center">
-                {/* <DeleteSite siteId={site.id} onDelete={() => console.log('Deleted', site.id)} /> */}
+                {<DeleteSite siteId={site.id} onDelete={() => console.log('Deleted', site.id)} />}
                 <EditSite />
               </td>
             </tr>
