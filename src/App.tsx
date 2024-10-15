@@ -9,7 +9,6 @@ import { Provider } from "react-redux";
 import store from './redux/store';
 import Map from './pages/MapPage';
 import Websites from './pages/Websites';
-import Map from './pages/MapPage';
 
 const App: React.FC = () => {
   return (

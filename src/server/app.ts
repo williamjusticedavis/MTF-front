@@ -135,12 +135,7 @@ export const fetchAllSites = async () => {
 
 export const createSite = async (siteData: object) => {
   try {
-    console.log(siteData);
-
-    const response = await api.post('/createSite',siteData);
-    
-  console.log(response.data);
-    
+    const response = await api.post('/site/createSite',siteData);
     return response.data;
   } catch (error) {
     console.error('Error verifying token:', error);

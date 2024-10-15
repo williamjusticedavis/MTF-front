@@ -36,14 +36,13 @@ const PopUpCardCreateSite = ({ onClose }: { onClose: () => void }) => {
       coordinates: [parseFloat(longitudeCoordinate), parseFloat(latitudeCoordinate)], 
     };
 
-    console.log('Site Data Submitted:', siteData);
     
     try {
       await createSite(siteData); 
       onClose();
     } catch (error) {
       console.error('Error creating site:', error);
-      alert('Failed to create site. Please try again.');
+     
     }
   };
 
