@@ -3,7 +3,7 @@ import DeleteUser from "./DeleteUser";
 import EditUser from "./EditUser";
 import { SyncLoader } from "react-spinners";
 import { useDispatch, useSelector } from "react-redux";
-import { RootState,AppDispatch } from "../redux/store";
+import { RootState, AppDispatch } from "../redux/store";
 import { fetchUsers } from "../redux/usersSlice";
 
 const Table: React.FC = () => {
@@ -89,7 +89,7 @@ const Table: React.FC = () => {
                   {user.role}
                 </td>
                 <td className="flex gap-2 items-center justify-center py-2 px-4 border-b text-center">
-                  <DeleteUser />
+                  <DeleteUser email={user.email} />
                   <EditUser
                     id={user._id}
                     firstName={user.firstName}

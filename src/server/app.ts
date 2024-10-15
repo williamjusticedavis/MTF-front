@@ -1,4 +1,5 @@
-import axios from 'axios';
+// Import the centralized Axios instance
+import api from '../utilities/axiosInstance';
 
 // Adding new user
 export const createUser = async (userData: {
@@ -9,7 +10,7 @@ export const createUser = async (userData: {
   phoneNumber: string;
 }) => {
   try {
-    const response = await axios.post('http://localhost:3000/api/users/createUser', userData);
+    const response = await api.post('/users/createUser', userData);
     return response.data;
   } catch (error) {
     console.error('Error creating user:', error);
@@ -17,10 +18,10 @@ export const createUser = async (userData: {
   }
 };
 
-// Fetching all users (function renamed to avoid duplication)
+// Fetching all users
 export const fetchAllUsers = async () => {
   try {
-    const response = await axios.get('http://localhost:3000/api/users/users');
+    const response = await api.get('/users/users');
     console.log(response.data.data);
     return response.data.data;
   } catch (error) {
@@ -29,10 +30,11 @@ export const fetchAllUsers = async () => {
   }
 };
 
-// Login
+// Login - check if email exists
 export const checkEmail = async (userData: { email: string }) => {
   try {
-    const response = await axios.post('http://localhost:3000/api/users/login', userData);
+    const response = await api.post('/users/check-email', userData);
+    console.log(response.data);
     return response.data;
   } catch (error) {
     console.error('Error checking email:', error);
@@ -49,7 +51,7 @@ export const updateUser = async (id: string, updatedData: {
   phoneNumber?: string;
 }) => {
   try {
-    const response = await axios.patch(`http://localhost:3000/api/users/updateUser/${id}`, updatedData);
+    const response = await api.patch(`/users/updateUser/${id}`, updatedData);
     return response.data;
   } catch (error) {
     console.error('Error updating user:', error);
@@ -58,9 +60,9 @@ export const updateUser = async (id: string, updatedData: {
 };
 
 // Deleting user
-export const deleteUser = async (id: string) => {
+export const deleteUser = async (email: string) => {
   try {
-    const response = await axios.delete(`http://localhost:3000/api/users/deleteUser/${id}`);
+    const response = await api.delete(`/users/deleteUser/${email}`);
     return response.data;
   } catch (error) {
     console.error('Error deleting user:', error);
@@ -68,14 +70,75 @@ export const deleteUser = async (id: string) => {
   }
 };
 
-// Searching users (function renamed to avoid duplication)
+// Searching users
 export const searchUsers = async (searchCriteria: any) => {
   try {
-    console.log()
-    const response = await axios.post('http://localhost:3000/api/users/users/searchUsers', searchCriteria);
+    const response = await api.post('/users/users/searchUsers', searchCriteria);
     return response.data;
   } catch (error) {
     console.error('Error searching users:', error);
+    throw error;
+  }
+};
+
+// Function to verify OTP
+export const verifyOtp = async (otpData: { email: string, otpCode: string }) => {
+  try {
+    const response = await api.post('/otp/verify', otpData);
+    return response.data;
+  } catch (error) {
+    console.error('Error verifying OTP:', error);
+    throw error;
+  }
+};
+
+// Sending OTP
+export const sendOtp = async (userData: { email: string }) => {
+  try {
+    const response = await api.post('/otp/sendotpbyemail', userData);
+    return response.data;
+  } catch (error) {
+    console.error('Error sending OTP:', error);
+    throw error;
+  }
+};
+
+// Google token verification
+export const checkToken = async (token: string) => {
+  try {
+    const response = await api.post('/users/auth/google', { token });
+    
+    if (response.data.token) {
+      localStorage.setItem('token', response.data.token);
+      console.log("Token saved to local storage:", response.data.token);
+    } else {
+      console.error("Token was not provided in the response.");
+    }
+    
+    return response.data;
+  } catch (error) {
+    console.error('Error verifying token:', error);
+    throw error;
+  }
+};
+
+export const fetchAllSites = async () => {
+  try {
+    const response = await api.get('/getAllSites');
+    console.log(response.data.data);
+    return response.data.data;
+  } catch (error) {
+    console.error('Error fetching users:', error);
+    return [];
+  }
+};
+
+export const createSite = async (siteData: object) => {
+  try {
+    const response = await api.post('/site/createSite',siteData);
+    return response.data;
+  } catch (error) {
+    console.error('Error verifying token:', error);
     throw error;
   }
 };
