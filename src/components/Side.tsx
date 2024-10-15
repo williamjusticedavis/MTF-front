@@ -48,7 +48,7 @@ const Side: React.FC<SideProps> = ({ isOpen, showLogoutModal }) => {
         </NavLink>
 
         <NavLink
-          to="/Map"
+          to="/map"
           className={({ isActive }) =>
             isActive ? 'text-green-400 border-b-2 border-green-400' : 'hover:border-b-2 hover:border-green-400'
           }
