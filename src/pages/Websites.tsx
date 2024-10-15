@@ -4,6 +4,7 @@ import Header from '../components/Header';
 import { useNavigate } from 'react-router-dom';
 import Side from '../components/Side';
 import TableSide from '../components/TableSite';
+import SearchSite from '../components/SearchSite';
 
 
 
@@ -55,7 +56,7 @@ const Websites: React.FC = () => {
                             <span className="ml-2 hidden md:inline">Download List</span>
                         </button>
                         <div className="w-full md:w-auto mt-2 md:mt-0">
-                            {/* search */}
+                           <SearchSite />
                         </div>
                     </div>
                 </div>
