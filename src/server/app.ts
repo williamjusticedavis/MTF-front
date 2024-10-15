@@ -122,6 +122,17 @@ export const checkToken = async (token: string) => {
   }
 };
 
+export const fetchAllSites = async () => {
+  try {
+    const response = await api.get('/getAllSites');
+    console.log(response.data.data);
+    return response.data.data;
+  } catch (error) {
+    console.error('Error fetching users:', error);
+    return [];
+  }
+};
+
 export const createSite = async (siteData: object) => {
   try {
     console.log(siteData);
