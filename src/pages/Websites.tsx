@@ -46,7 +46,7 @@ const Websites: React.FC = () => {
                         onClick={() => setPopUpCreateSite(true)}
                         className="flex items-center justify-center p-2 bg-green-500 text-white rounded hover:bg-green-600 transition duration-300 shadow w-full md:w-auto md:max-w-xs"
                     >
-                        <img src="../../add location.png" alt="Add User" className="w-6 h-6 inline-block" />
+                        <img src="../../add location.png" alt="Add Site" className="w-6 h-6 inline-block" />
                         <span className="ml-2 hidden md:inline">Add Site</span>
                     </button>
                     {popUpCreateSite && (
@@ -61,12 +61,12 @@ const Websites: React.FC = () => {
                             <span className="ml-2 hidden md:inline">Download List</span>
                         </button>
                         <div className="w-full md:w-auto mt-2 md:mt-0">
-                           <SearchSite />
+                           <SearchSite />   
                         </div>
                     </div>
                 </div>
 
-                <div className="container mx-auto bg-white shadow-md rounded-lg p-6">
+                <div className="container mx-auto bg-white shadow-md rounded-lg p-6 max-w-full">
                     <TableSide />
                 </div>
             </main>

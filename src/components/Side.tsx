@@ -28,7 +28,7 @@ const Side: React.FC<SideProps> = ({ isOpen, showLogoutModal }) => {
             isActive ? 'text-green-400 border-b-2 border-green-400' : 'hover:border-b-2 hover:border-green-400'
           }
         >
-          users
+          Users
         </NavLink>
         <NavLink
           to="/websites"
@@ -36,7 +36,7 @@ const Side: React.FC<SideProps> = ({ isOpen, showLogoutModal }) => {
             isActive ? 'text-green-400 border-b-2 border-green-400' : 'hover:border-b-2 hover:border-green-400'
           }
         >
-          websites
+          Websites
         </NavLink>
         <NavLink
           to="/about"
