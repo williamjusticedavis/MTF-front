@@ -46,8 +46,8 @@ const Websites: React.FC = () => {
                         onClick={() => setPopUpCreateSite(true)}
                         className="flex items-center justify-center p-2 bg-green-500 text-white rounded hover:bg-green-600 transition duration-300 shadow w-full md:w-auto md:max-w-xs"
                     >
-                        <img src="../../add user wite.png" alt="Add User" className="w-6 h-6 inline-block" />
-                        <span className="ml-2 hidden md:inline">Add Side</span>
+                        <img src="../../add location.png" alt="Add User" className="w-6 h-6 inline-block" />
+                        <span className="ml-2 hidden md:inline">Add Site</span>
                     </button>
                     {popUpCreateSite && (
                         <PopUpCardCreateSite onClose={() => setPopUpCreateSite(false)} />
