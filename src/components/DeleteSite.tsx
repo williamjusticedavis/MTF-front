@@ -15,8 +15,10 @@ const DeleteSite: React.FC<DeleteSiteProps> = ({ siteId, onDelete }) => {
   const handleDeleteSite = async () => {
     setLoading(true);
     try {
+      console.log(siteId);
+      
       // Replace 'your-api-url' with the actual base URL of your API
-      const response = await axios.delete(`https://your-api-url.com/sites/delete/${siteId}`, {
+      const response = await axios.delete(`http://localhost:3000/api/site/deleteSite/${siteId}`, {
         headers: {
           'Authorization': `Bearer ${localStorage.getItem('token')}`, // Optional: Attach token if needed
         },

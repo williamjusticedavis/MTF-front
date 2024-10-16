@@ -5,7 +5,7 @@ import { fetchAllSites } from '../server/app'; // יבוא הפונקציה שמ
 import DeleteSite from './DeleteSite';
 
 interface Site {
-  id: string;
+  _id: string;
   name: string;
   status: string;
   location: string;
@@ -75,7 +75,7 @@ const TableSide: React.FC = () => {
         </thead>
         <tbody>
           {sites.map((site) => (
-            <tr key={site.id}>
+            <tr key={site._id}>
               <td className="py-2 px-4 border-b text-center text-xs sm:text-base truncate">{site.name}</td>
               <td className="py-2 px-4 border-b text-center text-xs sm:text-base truncate">{site.status}</td>
               <td className="py-2 px-4 border-b text-center text-xs sm:text-base truncate">{site.location}</td>
@@ -85,7 +85,7 @@ const TableSide: React.FC = () => {
               <td className="py-2 px-4 border-b text-center text-xs sm:text-base truncate">{site.permission}</td>
               <td className="py-2 px-4 border-b text-center text-xs sm:text-base truncate">{site.userStatus}</td>
               <td className="flex gap-2 items-center justify-center py-2 px-4 border-b text-center">
-                {<DeleteSite siteId={site.id} onDelete={() => console.log('Deleted', site.id)} />}
+                {<DeleteSite siteId={site._id} onDelete={() => console.log('Deleted', site._id)} />}
                 <EditSite />
               </td>
             </tr>
