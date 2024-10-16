@@ -124,7 +124,7 @@ export const checkToken = async (token: string) => {
 
 export const fetchAllSites = async () => {
   try {
-    const response = await api.get('/getAllSites');
+    const response = await api.get('http://localhost:3000/api/site/getAllSites');
     console.log(response.data.data);
     return response.data.data;
   } catch (error) {
