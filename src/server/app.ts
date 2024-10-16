@@ -107,14 +107,14 @@ export const sendOtp = async (userData: { email: string }) => {
 export const checkToken = async (token: string) => {
   try {
     const response = await api.post('/users/auth/google', { token });
-    
+
     if (response.data.token) {
       localStorage.setItem('token', response.data.token);
       console.log("Token saved to local storage:", response.data.token);
     } else {
       console.error("Token was not provided in the response.");
     }
-    
+
     return response.data;
   } catch (error) {
     console.error('Error verifying token:', error);
@@ -132,3 +132,24 @@ export const fetchAllSites = async () => {
     return [];
   }
 };
+
+export const createSite = async (siteData: object) => {
+  try {
+    const response = await api.post('/site/createSite', siteData);
+    return response.data;
+  } catch (error) {
+    console.error('Error verifying token:', error);
+    throw error;
+  }
+};
+
+//Searching sites
+export const searchSite = async (searchCriteria: any) => {
+  try {
+    const response = await api.post('/site/searchSites', searchCriteria);
+    return response.data;
+  } catch (error) {
+    console.error('Error searching site:', error);
+    throw error;
+  }
+}
