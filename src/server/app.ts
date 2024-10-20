@@ -124,8 +124,7 @@ export const checkToken = async (token: string) => {
 
 export const fetchAllSites = async () => {
   try {
-    const response = await api.get('http://localhost:3000/api/site/getAllSites');
-    console.log(response.data.data);
+    const response = await api.get('/site/getAllSites');
     return response.data.data;
   } catch (error) {
     console.error('Error fetching users:', error);

@@ -7,13 +7,10 @@ import DeleteSite from './DeleteSite';
 interface Site {
   _id: string;
   name: string;
+  address: string;
+  coordinates: [number, number];
   status: string;
-  location: string;
-  space: string;
-  center: string;
-  role: string;
-  permission: string;
-  userStatus: string;
+  creationDate: Date;
 }
 
 const TableSide: React.FC = () => {
@@ -63,13 +60,10 @@ const TableSide: React.FC = () => {
         <thead>
           <tr>
             <th className="py-2 px-4 border-b text-center text-xs sm:text-base">Name</th>
-            <th className="py-2 px-4 border-b text-center text-xs sm:text-base">Status Side</th>
-            <th className="py-2 px-4 border-b text-center text-xs sm:text-base">Location</th>
-            <th className="py-2 px-4 border-b text-center text-xs sm:text-base">Space</th>
-            <th className="py-2 px-4 border-b text-center text-xs sm:text-base">National Center</th>
-            <th className="py-2 px-4 border-b text-center text-xs sm:text-base">Role</th>
-            <th className="py-2 px-4 border-b text-center text-xs sm:text-base">Permission</th>
-            <th className="py-2 px-4 border-b text-center text-xs sm:text-base">Status User</th>
+            <th className="py-2 px-4 border-b text-center text-xs sm:text-base">address</th>
+            <th className="py-2 px-4 border-b text-center text-xs sm:text-base">coordinates</th>
+            <th className="py-2 px-4 border-b text-center text-xs sm:text-base">status</th>
+            <th className="py-2 px-4 border-b text-center text-xs sm:text-base">creation Date</th>
             <th className="py-2 px-4 border-b text-center text-xs sm:text-base">Action</th>
           </tr>
         </thead>
@@ -77,13 +71,13 @@ const TableSide: React.FC = () => {
           {sites.map((site) => (
             <tr key={site._id}>
               <td className="py-2 px-4 border-b text-center text-xs sm:text-base truncate">{site.name}</td>
+              <td className="py-2 px-4 border-b text-center text-xs sm:text-base truncate">{site.address}</td>
+              <td className="py-2 px-4 border-b text-center text-xs sm:text-base truncate">{site.coordinates}</td>
               <td className="py-2 px-4 border-b text-center text-xs sm:text-base truncate">{site.status}</td>
-              <td className="py-2 px-4 border-b text-center text-xs sm:text-base truncate">{site.location}</td>
-              <td className="py-2 px-4 border-b text-center text-xs sm:text-base truncate">{site.space}</td>
-              <td className="py-2 px-4 border-b text-center text-xs sm:text-base truncate">{site.center}</td>
-              <td className="py-2 px-4 border-b text-center text-xs sm:text-base truncate">{site.role}</td>
-              <td className="py-2 px-4 border-b text-center text-xs sm:text-base truncate">{site.permission}</td>
-              <td className="py-2 px-4 border-b text-center text-xs sm:text-base truncate">{site.userStatus}</td>
+              <td className="py-2 px-4 border-b text-center text-xs sm:text-base truncate">
+                {new Date(site.creationDate).toLocaleDateString()}
+              </td>
+
               <td className="flex gap-2 items-center justify-center py-2 px-4 border-b text-center">
                 {<DeleteSite siteId={site._id} onDelete={() => console.log('Deleted', site._id)} />}
                 <EditSite />
