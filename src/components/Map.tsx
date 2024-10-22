@@ -33,20 +33,20 @@ interface Site {
   _id: string;
   name: string;
   address: string;
-  coordinates: [number, number]; // [lng, lat]
+  coordinates: [number, number];
 }
 
 const Map: React.FC = () => {
   const mapRef = useRef<google.maps.Map | null>(null);
   const [mapCenter, setMapCenter] = useState(center);
-  const [sites, setSites] = useState<Site[]>([]); // Store the fetched sites
+  const [sites, setSites] = useState<Site[]>([]);
 
   // Fetch sites from the backend
   useEffect(() => {
     const fetchSites = async () => {
       try {
         const response = await axios.get('http://localhost:3000/api/site/getAllSites');
-        if (response.data.success) {
+        if (response.data.isSuccessful) {
           setSites(response.data.data);
         }
       } catch (error) {
@@ -85,11 +85,11 @@ const Map: React.FC = () => {
           {sites.map(site => (
             <Marker
               key={site._id}
-              position={{ lat: site.coordinates[1], lng: site.coordinates[0] }} // Coordinates as [lng, lat]
-              title={site.name} // Optional, for displaying the name on hover
+              position={{ lat: site.coordinates[1], lng: site.coordinates[0] }}
+              title={site.name} // for displaying the name on hover
               icon={{
-                url: getIconUrl(), // Custom icon URL from react-icons
-                scaledSize: new google.maps.Size(32, 32), // Size of the marker
+                url: getIconUrl(),
+                scaledSize: new google.maps.Size(32, 32),
               }}
             />
           ))}
