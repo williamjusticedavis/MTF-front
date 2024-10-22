@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { SyncLoader } from 'react-spinners';
 import EditSite from './EditSite';
-import { fetchAllSites } from '../server/app'; // יבוא הפונקציה שמבצעת את קריאת ה-API
+import { fetchAllSites } from '../server/app';
 import DeleteSite from './DeleteSite';
 
 interface Site {
@@ -42,7 +42,7 @@ const TableSide: React.FC = () => {
     fetchSites(); // הפעלת הפונקציה בעת טעינת הקומפוננטה
   }, []);
 
-  // הצגת טעינה
+
   if (loading) {
     return (
       <div className="flex items-center justify-center">
