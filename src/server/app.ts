@@ -124,7 +124,7 @@ export const checkToken = async (token: string) => {
 
 export const fetchAllSites = async () => {
   try {
-    const response = await api.get('/getAllSites');
+    const response = await api.get('/site/getAllSites');
     console.log(response.data.data);
     return response.data.data;
   } catch (error) {
@@ -135,10 +135,43 @@ export const fetchAllSites = async () => {
 
 export const createSite = async (siteData: object) => {
   try {
+    
     const response = await api.post('/site/createSite',siteData);
     return response.data;
   } catch (error) {
     console.error('Error verifying token:', error);
+    throw error;
+  }
+};
+export const updateSite = async (id: string, updatedData: {
+  name?: string;
+  address?: string;
+  coordinates?: any;
+  creationDate?: Date;
+  lastUpdated?: Date;
+}) => {
+  try {
+    const response = await api.patch(`/site/updateSide/${id}`, updatedData);
+    console.log(id);
+    return response.data;
+  } catch (error) {
+    console.error('Error updating site:', error); 
+    throw error;
+  }
+};
+
+export const getSiteById =async (id: any, updatedData: {
+  name?: string;
+  address?: string;
+  coordinates?: any;
+  creationDate?: Date;
+  lastUpdated?: Date;
+}) => {
+  try {
+    const response = await api.patch(`createSite/updateSide/${id}`, updatedData);
+    return response.data;
+  } catch (error) {
+    console.error('Error updating user:', error);
     throw error;
   }
 };
