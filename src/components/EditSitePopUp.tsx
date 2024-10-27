@@ -1,57 +1,44 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { createSite } from '../server/app';
+import React, { useState } from "react";
+import { updateSite } from '../server/app';
 
-const PopUpCardCreateSite = ({ onClose }: { onClose: () => void }) => {
-  const [name, setName] = useState('');
-  const [address, setAddress] = useState('');
-  const [latitudeCoordinate, setLatitudeCoordinate] = useState('');
-  const [longitudeCoordinate, setLongitudeCoordinate] = useState('');
+interface EditSitePopUpProps {
+  site: {
+    _id: string;
+    name: string;
+    address: string;
+    coordinates: [number, number];
+  };
+  onClose: () => void;
+}
 
- 
-  const popUpRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const closePopUp = (event: MouseEvent) => {
-      if (popUpRef.current && !popUpRef.current.contains(event.target as Node)) {
-        onClose(); 
-      }
-    };
-
-    document.addEventListener('mousedown', closePopUp);
-    return () => {
-      document.removeEventListener('mousedown', closePopUp);
-    };
-  }, [onClose]);
+const EditSitePopUp: React.FC<EditSitePopUpProps> = ({ site, onClose }) => {
+  const [name, setName] = useState(site.name);
+  const [address, setAddress] = useState(site.address);
+  const [latitude, setLatitude] = useState<any>(site.coordinates[1]);
+  const [longitude, setLongitude] = useState<any>(site.coordinates[0]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!name || !address || !latitudeCoordinate || !longitudeCoordinate) {
-      
-      return;
-    }
 
-    const siteData = {
+    const updatedSiteData = {
       name,
       address,
-      coordinates: [longitudeCoordinate, latitudeCoordinate], 
-      creationDate:new Date,
-      lastUpdated:null,
+      coordinates: [parseFloat(longitude), parseFloat(latitude)],
+      lastUpdated: new Date(),
     };
 
-    
     try {
-      await createSite(siteData); 
+      await updateSite(site._id, updatedSiteData); 
       onClose();
     } catch (error) {
-      console.error('Error creating site:', error);
-     
+      console.error("Error updating site:", error);
     }
   };
 
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-gray-700 bg-opacity-50">
-      <div ref={popUpRef} className="bg-white p-6 rounded-lg shadow-lg w-96">
-        <h2 className="text-xl font-semibold mb-4">Create New Site</h2>
+      <div className="bg-white p-6 rounded-lg shadow-lg w-96">
+        <h2 className="text-xl font-semibold mb-4">Edit Site</h2>
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
             <label htmlFor="name" className="block text-sm font-medium text-gray-700">Name:</label>
@@ -59,7 +46,7 @@ const PopUpCardCreateSite = ({ onClose }: { onClose: () => void }) => {
               id="name"
               type="text"
               value={name}
-              onChange={(event) => setName(event.target.value)}
+              onChange={(e) => setName(e.target.value)}
               required
               className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:ring-blue-500 focus:border-blue-500"
             />
@@ -70,29 +57,29 @@ const PopUpCardCreateSite = ({ onClose }: { onClose: () => void }) => {
               id="address"
               type="text"
               value={address}
-              onChange={(event) => setAddress(event.target.value)}
+              onChange={(e) => setAddress(e.target.value)}
               required
               className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:ring-blue-500 focus:border-blue-500"
             />
           </div>
           <div className="mb-4">
-            <label htmlFor="latitude" className="block text-sm font-medium text-gray-700">Latitude Coordinate:</label>
+            <label htmlFor="latitude" className="block text-sm font-medium text-gray-700">Latitude:</label>
             <input
               id="latitude"
               type="text"
-              value={latitudeCoordinate}
-              onChange={(event) => setLatitudeCoordinate(event.target.value)}
+              value={latitude}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) => setLatitude(e.target.value)}
               required
               className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:ring-blue-500 focus:border-blue-500"
             />
           </div>
           <div className="mb-4">
-            <label htmlFor="longitude" className="block text-sm font-medium text-gray-700">Longitude Coordinate:</label>
+            <label htmlFor="longitude" className="block text-sm font-medium text-gray-700">Longitude:</label>
             <input
               id="longitude"
               type="text"
-              value={longitudeCoordinate}
-              onChange={(event) => setLongitudeCoordinate(event.target.value)}
+              value={longitude}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) => setLongitude(e.target.value)}
               required
               className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:ring-blue-500 focus:border-blue-500"
             />
@@ -109,7 +96,7 @@ const PopUpCardCreateSite = ({ onClose }: { onClose: () => void }) => {
               type="submit" 
               className="w-1/2 bg-blue-500 text-white font-semibold py-2 rounded-md hover:bg-blue-600 transition duration-200"
             >
-              Submit
+              Update
             </button>
           </div>
         </form>
@@ -118,4 +105,4 @@ const PopUpCardCreateSite = ({ onClose }: { onClose: () => void }) => {
   );
 };
 
-export default PopUpCardCreateSite;
+export default EditSitePopUp;

@@ -107,14 +107,14 @@ export const sendOtp = async (userData: { email: string }) => {
 export const checkToken = async (token: string) => {
   try {
     const response = await api.post('/users/auth/google', { token });
-    
+
     if (response.data.token) {
       localStorage.setItem('token', response.data.token);
       console.log("Token saved to local storage:", response.data.token);
     } else {
       console.error("Token was not provided in the response.");
     }
-    
+
     return response.data;
   } catch (error) {
     console.error('Error verifying token:', error);
@@ -124,8 +124,7 @@ export const checkToken = async (token: string) => {
 
 export const fetchAllSites = async () => {
   try {
-    const response = await api.get('/getAllSites');
-    console.log(response.data.data);
+    const response = await api.get('/site/getAllSites');
     return response.data.data;
   } catch (error) {
     console.error('Error fetching users:', error);
@@ -135,10 +134,53 @@ export const fetchAllSites = async () => {
 
 export const createSite = async (siteData: object) => {
   try {
-    const response = await api.post('/site/createSite',siteData);
+    const response = await api.post('/site/createSite', siteData);
     return response.data;
   } catch (error) {
     console.error('Error verifying token:', error);
     throw error;
   }
 };
+export const updateSite = async (id: string, updatedData: {
+  name?: string;
+  address?: string;
+  coordinates?: any;
+  creationDate?: Date;
+  lastUpdated?: Date;
+}) => {
+  try {
+    const response = await api.patch(`/site/updateSide/${id}`, updatedData);
+    console.log(id);
+    return response.data;
+  } catch (error) {
+    console.error('Error updating site:', error); 
+    throw error;
+  }
+};
+
+export const getSiteById =async (id: any, updatedData: {
+  name?: string;
+  address?: string;
+  coordinates?: any;
+  creationDate?: Date;
+  lastUpdated?: Date;
+}) => {
+  try {
+    const response = await api.patch(`createSite/updateSide/${id}`, updatedData);
+    return response.data;
+  } catch (error) {
+    console.error('Error updating user:', error);
+    throw error;
+  }
+};
+
+//Searching sites
+export const searchSite = async (searchCriteria: any) => {
+  try {
+    const response = await api.post('/site/searchSites', searchCriteria);
+    return response.data;
+  } catch (error) {
+    console.error('Error searching site:', error);
+    throw error;
+  }
+}
