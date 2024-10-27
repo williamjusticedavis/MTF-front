@@ -17,7 +17,7 @@ const Otp: React.FC = () => {
         const focusIndex = firstEmptyIndex !== -1 ? firstEmptyIndex : otp.length - 1;
 
         if (inputRefs.current[focusIndex]) {
-            inputRefs.current[focusIndex].focus();
+            inputRefs.current[focusIndex]?.focus();
         }
 
         const intervalId = setInterval(() => {
@@ -108,7 +108,7 @@ const Otp: React.FC = () => {
                 // Focus on the last input after clearing error
                 const focusIndex = otp.length - 1;
                 if (inputRefs.current[focusIndex]) {
-                    inputRefs.current[focusIndex].focus();
+                    inputRefs.current[focusIndex]?.focus();
                 }
             }, 500);
         }
@@ -119,12 +119,12 @@ const Otp: React.FC = () => {
         setTimer(30);
         setError(null);
 
-        try {
-            await sendOtp({ email: 'user@example.com' }); // Replace with actual user email
+        const email = localStorage.getItem('email'); // Retrieve the email from localStorage
+        if (email) {
+            await sendOtp({ email });
             console.log('OTP resent successfully');
-        } catch (error) {
-            console.error('Error resending OTP:', error);
-            setError('Failed to resend OTP. Please try again.');
+        } else {
+            setError('Email not found. Please re-enter your email.');
         }
     };
 

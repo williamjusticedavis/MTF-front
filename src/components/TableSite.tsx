@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { SyncLoader } from 'react-spinners';
 import EditSite from './EditSite';
-import { fetchAllSites } from '../server/app'; // יבוא הפונקציה שמבצעת את קריאת ה-API
+import { fetchAllSites } from '../server/app';
 import DeleteSite from './DeleteSite';
 
 interface Site {
@@ -15,31 +15,30 @@ interface Site {
 
 const TableSide: React.FC = () => {
   const [sites, setSites] = useState<Site[]>([]);
-  const [loading, setLoading] = useState<boolean>(true); // ניהול מצב טעינה
-  const [error, setError] = useState<string | null>(null); // ניהול שגיאות
+  const [loading, setLoading] = useState<boolean>(true); 
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchSites = async () => {
-      setLoading(true); // התחלת טעינה
+      setLoading(true);
       try {
-        const sitesData = await fetchAllSites(); // קריאה לפונקציית API
+        const sitesData = await fetchAllSites();
         if (sitesData.length === 0) {
-          setError('No sites found'); // במידה ואין נתונים
+          setError('No sites found'); 
         } else {
-          setSites(sitesData); // עדכון ה-state עם הנתונים
-          setError(null); // אפס את השגיאה
+          setSites(sitesData);
+          setError(null); 
         }
       } catch (err) {
-        setError('Error fetching sites'); // טיפול בשגיאה במידה ויש בעיה בבקשה
+        setError('Error fetching sites');
       } finally {
-        setLoading(false); // סיום טעינה בכל מקרה
+        setLoading(false); 
       }
     };
 
-    fetchSites(); // הפעלת הפונקציה בעת טעינת הקומפוננטה
+    fetchSites();
   }, []);
 
-  // הצגת טעינה
   if (loading) {
     return (
       <div className="flex items-center justify-center">
@@ -48,12 +47,10 @@ const TableSide: React.FC = () => {
     );
   }
 
-  // הצגת הודעת שגיאה במידה וישנה שגיאה
   if (error) {
     return <div className="text-center py-4 text-red-500">{error}</div>;
   }
 
-  // הצגת הטבלה עם הנתונים
   return (
     <div className="overflow-x-auto">
       <table className="min-w-full bg-white table-auto">
@@ -80,13 +77,13 @@ const TableSide: React.FC = () => {
 
               <td className="flex gap-2 items-center justify-center py-2 px-4 border-b text-center">
                 {<DeleteSite siteId={site._id} onDelete={() => console.log('Deleted', site._id)} />}
-                <EditSite />
+                <EditSite site={site} />
               </td>
             </tr>
           ))}
           {sites.length === 0 && (
             <tr>
-              <td colSpan={9} className="py-2 px-4 text-center text-xs sm:text-base">
+              <td colSpan={5} className="py-2 px-4 text-center text-xs sm:text-base">
                 No sites found.
               </td>
             </tr>

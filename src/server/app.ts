@@ -141,6 +141,38 @@ export const createSite = async (siteData: object) => {
     throw error;
   }
 };
+export const updateSite = async (id: string, updatedData: {
+  name?: string;
+  address?: string;
+  coordinates?: any;
+  creationDate?: Date;
+  lastUpdated?: Date;
+}) => {
+  try {
+    const response = await api.patch(`/site/updateSide/${id}`, updatedData);
+    console.log(id);
+    return response.data;
+  } catch (error) {
+    console.error('Error updating site:', error); 
+    throw error;
+  }
+};
+
+export const getSiteById =async (id: any, updatedData: {
+  name?: string;
+  address?: string;
+  coordinates?: any;
+  creationDate?: Date;
+  lastUpdated?: Date;
+}) => {
+  try {
+    const response = await api.patch(`createSite/updateSide/${id}`, updatedData);
+    return response.data;
+  } catch (error) {
+    console.error('Error updating user:', error);
+    throw error;
+  }
+};
 
 //Searching sites
 export const searchSite = async (searchCriteria: any) => {
