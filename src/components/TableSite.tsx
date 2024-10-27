@@ -17,6 +17,7 @@ const TableSide: React.FC = () => {
   const [sites, setSites] = useState<Site[]>([]);
   const [loading, setLoading] = useState<boolean>(true); 
   const [error, setError] = useState<string | null>(null);
+  const [loadSite, setLoadSite] = useState<boolean>(true); 
 
   useEffect(() => {
     const fetchSites = async () => {
@@ -37,7 +38,7 @@ const TableSide: React.FC = () => {
     };
 
     fetchSites();
-  }, []);
+  }, [loadSite]);
 
   if (loading) {
     return (
@@ -76,8 +77,8 @@ const TableSide: React.FC = () => {
               </td>
 
               <td className="flex gap-2 items-center justify-center py-2 px-4 border-b text-center">
-                {<DeleteSite siteId={site._id} onDelete={() => console.log('Deleted', site._id)} />}
-                <EditSite site={site} />
+              {<DeleteSite siteId={site._id} onDelete={() => console.log('Deleted', site._id)} setLoadSite={setLoadSite} loadSite={loadSite}/>}
+                <EditSite site={site} setLoadSite={setLoadSite} loadSite={loadSite}/>
               </td>
             </tr>
           ))}

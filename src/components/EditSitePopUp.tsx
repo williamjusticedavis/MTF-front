@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, Dispatch, SetStateAction } from "react";
 import { updateSite } from '../server/app';
 
 interface EditSitePopUpProps {
@@ -9,9 +9,11 @@ interface EditSitePopUpProps {
     coordinates: [number, number];
   };
   onClose: () => void;
+  setLoadSite: Dispatch<SetStateAction<boolean>>;
+  loadSite: boolean;
 }
 
-const EditSitePopUp: React.FC<EditSitePopUpProps> = ({ site, onClose }) => {
+const EditSitePopUp: React.FC<EditSitePopUpProps> = ({ site, onClose, setLoadSite, loadSite}) => {
   const [name, setName] = useState(site.name);
   const [address, setAddress] = useState(site.address);
   const [latitude, setLatitude] = useState<any>(site.coordinates[1]);
@@ -28,10 +30,12 @@ const EditSitePopUp: React.FC<EditSitePopUpProps> = ({ site, onClose }) => {
     };
 
     try {
-      await updateSite(site._id, updatedSiteData); 
+      await updateSite(site._id, updatedSiteData);
       onClose();
     } catch (error) {
       console.error("Error updating site:", error);
+    }finally{
+      setLoadSite(!loadSite)
     }
   };
 
@@ -85,15 +89,15 @@ const EditSitePopUp: React.FC<EditSitePopUpProps> = ({ site, onClose }) => {
             />
           </div>
           <div className="flex justify-between mt-4">
-            <button 
-              type="button" 
+            <button
+              type="button"
               className="w-1/2 bg-gray-300 text-gray-700 font-semibold py-2 rounded-md hover:bg-gray-400 transition duration-200"
               onClick={onClose}
             >
               Cancel
             </button>
-            <button 
-              type="submit" 
+            <button
+              type="submit"
               className="w-1/2 bg-blue-500 text-white font-semibold py-2 rounded-md hover:bg-blue-600 transition duration-200"
             >
               Update
