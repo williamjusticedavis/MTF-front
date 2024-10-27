@@ -6,13 +6,16 @@ import Side from '../components/Side';
 import TableSide from '../components/TableSite';
 import SearchSite from '../components/SearchSite';
 import PopUpCardCreateSite from '../components/PopUpCardCreateSite';
+import DownloadSiteList from '../components/DownloadSiteList';
 
 
 
 const Websites: React.FC = () => {
     const [popUpCreateSite, setPopUpCreateSite] = useState(false);
     const [isAsideOpen, setAsideOpen] = useState<boolean>(false);
+    const [ isDownloadPopupVisible, setIsDownloadPopupVisible] = useState<boolean>(false);
     const navigate = useNavigate();
+
 
     
     const [showModal, setShowModal] = useState(false);
@@ -24,6 +27,10 @@ const Websites: React.FC = () => {
     const handleLogOut = () => {
         navigate("/login");
     };
+
+    const handleExportSitse= () => {
+        setIsDownloadPopupVisible(true)
+    }
 
     useEffect(() => {
         const handleResize = () => {
@@ -49,12 +56,18 @@ const Websites: React.FC = () => {
                         <img src="../../add location.png" alt="Add Site" className="w-6 h-6 inline-block" />
                         <span className="ml-2 hidden md:inline">Add Site</span>
                     </button>
+                    {
+                        isDownloadPopupVisible && (
+                            <DownloadSiteList setIsDownloadPopupVisible={setIsDownloadPopupVisible}/>
+                        ) 
+
+                    }
                     {popUpCreateSite && (
                         <PopUpCardCreateSite onClose={() => setPopUpCreateSite(false)} />
                     )}
                     <div className="flex flex-col space-y-2 md:space-y-0 md:flex-row items-center md:ml-4 md:flex-wrap">
                         <button
-                            // onClick={}
+                             onClick={handleExportSitse}
                             className="flex items-center justify-center p-2 bg-green-500 text-white rounded hover:bg-green-600 transition duration-300 shadow w-full md:w-auto md:mr-2"
                         >
                             <img src="../../xl wite.png" alt="Download" className="w-6 h-6 inline-block" />
