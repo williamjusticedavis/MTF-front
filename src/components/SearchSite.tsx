@@ -1,5 +1,5 @@
 import React, { useState, ChangeEvent, useEffect } from 'react'
-import { searchSite } from '../redux/usersSlice'
+import { fetchSites, searchSite } from '../redux/usersSlice'
 import { useDispatch } from 'react-redux';
 import { AppDispatch } from '../redux/store';
 
@@ -10,14 +10,18 @@ const SearchSite: React.FC = () => {
   
   const InputChange = (event: ChangeEvent<HTMLInputElement>) => {
     setSearchInput(event.target.value);
+    
   };
 
   useEffect (() => {
-    if (searchInput !== "") {
-      const searchCriteria = {inputWords: searchInput}
+    if (searchInput.trim()) {
+      const searchCriteria = { searchTerm: searchInput };
       dispatch(searchSite(searchCriteria));
+    } else {
+      dispatch(fetchSites());
     }
-  }, [searchInput, dispatch])
+  }, [searchInput, dispatch]);
+
 
 
   return (
