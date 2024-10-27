@@ -77,7 +77,6 @@ const TableSide: React.FC = () => {
 
               <td className="flex gap-2 items-center justify-center py-2 px-4 border-b text-center">
                 {<DeleteSite siteId={site._id} onDelete={() => console.log('Deleted', site._id)} />}
-                <EditSite />
                 <EditSite site={site} />
               </td>
             </tr>
