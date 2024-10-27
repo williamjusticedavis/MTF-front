@@ -12,17 +12,22 @@ const DownloadUserList: React.FC<DownloadUserListProps> = ({ setIsDownloadPopupV
 
   const downloadUsers: () => Promise<void> = async () => {
     try {
+      const token = localStorage.getItem("token");
+  
       const response = await axios.get('http://localhost:3000/api/users/export-users', {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
         responseType: 'blob',
       });
 
       const url = window.URL.createObjectURL(new Blob([response.data]));
       const link = document.createElement('a');
       link.href = url;
-      link.setAttribute('download', 'users.xlsx'); // שם הקובץ
+      link.setAttribute('download', 'users.xlsx');
       document.body.appendChild(link);
       link.click();
-      document.body.removeChild(link); // הסרת הקישור לאחר ההורדה
+      document.body.removeChild(link);
     } catch (error) {
       console.error('Error downloading the file', error);
     }
