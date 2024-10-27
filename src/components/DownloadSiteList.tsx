@@ -12,7 +12,7 @@ const DownloadSiteList: React.FC<DownloadSiteListProps> = ({ setIsDownloadPopupV
 
   const downloadSites: () => Promise<void> = async () => {
     try {
-      const response = await axios.get('http://localhost:3000/api/sites/export-sites', {
+      const response = await axios.get('http://localhost:3000/api/site/export-sites', {
         responseType: 'blob',
       });
 
