@@ -8,7 +8,7 @@ import NotFound from './components/NotFound';
 import { Provider } from "react-redux";
 import store from './redux/store';
 import Map from './pages/MapPage';
-import Websites from './pages/Websites';
+import Sites from './pages/Sites';
 import About from './pages/About';
 
 const App: React.FC = () => {
@@ -26,7 +26,7 @@ const App: React.FC = () => {
 
           {/* Unprotected /users route */}
           <Route path="/users" element={<Users />} />
-          <Route path="/websites" element={<Websites/>} />
+          <Route path="/websites" element={<Sites/>} />
 
           <Route path="*" element={<NotFound />} />
         </Routes>
