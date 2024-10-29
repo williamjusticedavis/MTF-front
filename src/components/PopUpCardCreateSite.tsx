@@ -7,58 +7,58 @@ interface PopUpCardCreateSiteProps {
   setLoadSite: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const PopUpCardCreateSite: React.FC<PopUpCardCreateSiteProps> = ({ onClose, setLoadSite, loadSite}) => {
+const PopUpCardCreateSite: React.FC<PopUpCardCreateSiteProps> = ({ onClose, setLoadSite, loadSite }) => {
   const [name, setName] = useState('');
   const [address, setAddress] = useState('');
   const [latitudeCoordinate, setLatitudeCoordinate] = useState('');
   const [longitudeCoordinate, setLongitudeCoordinate] = useState('');
 
- 
   const popUpRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    document.body.style.overflow = 'hidden';
+
     const closePopUp = (event: MouseEvent) => {
       if (popUpRef.current && !popUpRef.current.contains(event.target as Node)) {
-        onClose(); 
+        onClose();
       }
     };
 
     document.addEventListener('mousedown', closePopUp);
     return () => {
       document.removeEventListener('mousedown', closePopUp);
+      document.body.style.overflow = '';
     };
   }, [onClose]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!name || !address || !latitudeCoordinate || !longitudeCoordinate) {
-      
-      return;
-    }
+    if (!name || !address || !latitudeCoordinate || !longitudeCoordinate) return;
 
     const siteData = {
       name,
       address,
-      coordinates: [longitudeCoordinate, latitudeCoordinate], 
-      creationDate:new Date,
-      lastUpdated:null,
+      coordinates: [longitudeCoordinate, latitudeCoordinate],
+      creationDate: new Date(),
+      lastUpdated: null,
     };
 
-    
     try {
-      await createSite(siteData); 
+      await createSite(siteData);
       setLoadSite(!loadSite);
       onClose();
     } catch (error) {
       console.error('Error creating site:', error);
-     
     }
   };
 
   return (
-    <div className="fixed inset-0 flex items-center justify-center bg-gray-700 bg-opacity-50">
-      <div ref={popUpRef} className="bg-white p-6 rounded-lg shadow-lg w-96">
-        <h2 className="text-xl font-semibold mb-4">Create New Site</h2>
+    <div className="fixed inset-0 flex items-center justify-center bg-gray-700 bg-opacity-50 p-4 z-50">
+      <div
+        ref={popUpRef}
+        className="bg-white p-6 rounded-lg shadow-lg max-h-[90vh] overflow-y-auto w-full max-w-md transition-transform transform scale-95 sm:scale-100"
+      >
+        <h2 className="text-xl font-semibold mb-4 text-center">Create New Site</h2>
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
             <label htmlFor="name" className="block text-sm font-medium text-gray-700">Name:</label>
@@ -104,17 +104,17 @@ const PopUpCardCreateSite: React.FC<PopUpCardCreateSiteProps> = ({ onClose, setL
               className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:ring-blue-500 focus:border-blue-500"
             />
           </div>
-          <div className="flex justify-between mt-4">
-            <button 
-              type="button" 
-              className="w-1/2 bg-gray-300 text-gray-700 font-semibold py-2 rounded-md hover:bg-gray-400 transition duration-200"
+          <div className="flex flex-col sm:flex-row sm:space-x-4 space-y-2 sm:space-y-0 mt-4">
+            <button
+              type="button"
+              className="w-full sm:w-1/2 bg-gray-300 text-gray-700 font-semibold py-2 rounded-md hover:bg-gray-400 transition duration-200"
               onClick={onClose}
             >
               Cancel
             </button>
-            <button 
-              type="submit" 
-              className="w-1/2 bg-blue-500 text-white font-semibold py-2 rounded-md hover:bg-blue-600 transition duration-200"
+            <button
+              type="submit"
+              className="w-full sm:w-1/2 bg-blue-500 text-white font-semibold py-2 rounded-md hover:bg-blue-600 transition duration-200"
             >
               Submit
             </button>

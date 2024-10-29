@@ -13,7 +13,7 @@ interface EditSitePopUpProps {
   loadSite: boolean;
 }
 
-const EditSitePopUp: React.FC<EditSitePopUpProps> = ({ site, onClose, setLoadSite, loadSite}) => {
+const EditSitePopUp: React.FC<EditSitePopUpProps> = ({ site, onClose, setLoadSite, loadSite }) => {
   const [name, setName] = useState(site.name);
   const [address, setAddress] = useState(site.address);
   const [latitude, setLatitude] = useState<any>(site.coordinates[1]);
@@ -34,15 +34,15 @@ const EditSitePopUp: React.FC<EditSitePopUpProps> = ({ site, onClose, setLoadSit
       onClose();
     } catch (error) {
       console.error("Error updating site:", error);
-    }finally{
-      setLoadSite(!loadSite)
+    } finally {
+      setLoadSite(!loadSite);
     }
   };
 
   return (
-    <div className="fixed inset-0 flex items-center justify-center bg-gray-700 bg-opacity-50">
-      <div className="bg-white p-6 rounded-lg shadow-lg w-96">
-        <h2 className="text-xl font-semibold mb-4">Edit Site</h2>
+    <div className="fixed inset-0 flex items-center justify-center bg-gray-700 bg-opacity-50 p-4 z-50">
+      <div className="bg-white p-6 rounded-lg shadow-lg w-full max-w-md max-h-[90vh] overflow-y-auto">
+        <h2 className="text-xl font-semibold mb-4 text-center">Edit Site</h2>
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
             <label htmlFor="name" className="block text-sm font-medium text-gray-700">Name:</label>
@@ -88,17 +88,17 @@ const EditSitePopUp: React.FC<EditSitePopUpProps> = ({ site, onClose, setLoadSit
               className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:ring-blue-500 focus:border-blue-500"
             />
           </div>
-          <div className="flex justify-between mt-4">
+          <div className="flex flex-col sm:flex-row justify-between sm:space-x-4 space-y-2 sm:space-y-0 mt-4">
             <button
               type="button"
-              className="w-1/2 bg-gray-300 text-gray-700 font-semibold py-2 rounded-md hover:bg-gray-400 transition duration-200"
+              className="w-full sm:w-1/2 bg-gray-300 text-gray-700 font-semibold py-2 rounded-md hover:bg-gray-400 transition duration-200"
               onClick={onClose}
             >
               Cancel
             </button>
             <button
               type="submit"
-              className="w-1/2 bg-blue-500 text-white font-semibold py-2 rounded-md hover:bg-blue-600 transition duration-200"
+              className="w-full sm:w-1/2 bg-blue-500 text-white font-semibold py-2 rounded-md hover:bg-blue-600 transition duration-200"
             >
               Update
             </button>
