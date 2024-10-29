@@ -1,13 +1,15 @@
-import React, { useState } from 'react';
+import React, { useState , Dispatch, SetStateAction  } from 'react';
 import axios from 'axios';
 import { MdDelete } from "react-icons/md";
 
 interface DeleteSiteProps {
   siteId: string;  // ID of the site to be deleted
   onDelete: () => void; // Callback to refresh or update the list after deletion
+  setLoadSite: Dispatch<SetStateAction<boolean>>;
+  loadSite: boolean;
 }
 
-const DeleteSite: React.FC<DeleteSiteProps> = ({ siteId, onDelete }) => {
+const DeleteSite: React.FC<DeleteSiteProps> = ({ siteId, onDelete ,setLoadSite, loadSite}) => {
   const [showModal, setShowModal] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -32,10 +34,12 @@ const DeleteSite: React.FC<DeleteSiteProps> = ({ siteId, onDelete }) => {
       console.error('Error deleting site:', err);
     } finally {
       setLoading(false);
+      setLoadSite(!loadSite)
     }
   };
 
   return (
+    
     <div>
       <button 
         className='text-gray-500 transition-transform duration-200 transform hover:text-gray-800 hover:scale-150 focus:scale-150 focus:outline-none'

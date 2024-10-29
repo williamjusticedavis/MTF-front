@@ -1,7 +1,13 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { createSite } from '../server/app';
 
-const PopUpCardCreateSite = ({ onClose }: { onClose: () => void }) => {
+interface PopUpCardCreateSiteProps {
+  onClose: () => void;
+  loadSite: boolean;
+  setLoadSite: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+const PopUpCardCreateSite: React.FC<PopUpCardCreateSiteProps> = ({ onClose, setLoadSite, loadSite}) => {
   const [name, setName] = useState('');
   const [address, setAddress] = useState('');
   const [latitudeCoordinate, setLatitudeCoordinate] = useState('');
@@ -41,6 +47,7 @@ const PopUpCardCreateSite = ({ onClose }: { onClose: () => void }) => {
     
     try {
       await createSite(siteData); 
+      setLoadSite(!loadSite);
       onClose();
     } catch (error) {
       console.error('Error creating site:', error);
