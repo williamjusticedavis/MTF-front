@@ -177,10 +177,11 @@ export const getSiteById =async (id: any, updatedData: {
 //Searching sites
 export const searchSite = async (searchCriteria: any) => {
   try {
-    const response = await api.post('/site/searchSites', searchCriteria);
+    const response = await api.post('api/site/searchSites', searchCriteria);
     return response.data;
   } catch (error) {
     console.error('Error searching site:', error);
     throw error;
   }
 }
+
