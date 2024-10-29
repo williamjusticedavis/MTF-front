@@ -78,13 +78,12 @@ export const fetchSites = createAsyncThunk<Site[], void>(
 );
 
 export const searchSite = createAsyncThunk<Site[], { searchTerm: string }>(
-    '/searchSite',
+    'sites/searchSite',
     async (searchCriteria) => {
         const response = await api.post('/site/searchSites', searchCriteria);
-        return response.data.data;
+        return response.data.data; // החזרת הנתונים
     }
 );
-
 
 const userSlice = createSlice({
     name: 'users',
@@ -164,8 +163,9 @@ const siteSlice = createSlice({
                 state.error = null;
             })
             .addCase(searchSite.fulfilled, (state, action: PayloadAction<Site[]>) => {
+                console.log('Search results:', action.payload);
                 state.loading = false;
-                state.sites = action.payload;
+                state.sites = action.payload; // עדכון המצב עם תוצאות החיפוש
             })
             .addCase(searchSite.rejected, (state, action) => {
                 state.loading = false;
