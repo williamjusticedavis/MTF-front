@@ -59,19 +59,29 @@ export const searchUsers = createAsyncThunk<User[], { inputWords: string }>(
     }
 );
 
-export const searchSite = createAsyncThunk<Site[], { inputWords: string }>(
-    'users/searchSite',
-    async (searchCriteria) => {
-        const response = await api.post('/users/users/searchSite', searchCriteria);
-        return response.data.data;
-    }
-);
 
 export const deleteUser = createAsyncThunk<void, string>(
     'users/deleteUser',
     async (email) => {
         const response = await api.delete(`/users/deleteUser/${email}`);
         return response.data.data;
+    }
+);
+
+// Fetch sites with token authentication
+export const fetchSites = createAsyncThunk<Site[], void>(
+    'sites/fetchSites',
+    async () => {
+        const response = await api.get('/sites');
+        return response.data.data;
+    }
+);
+
+export const searchSite = createAsyncThunk<Site[], { searchTerm: string }>(
+    'sites/searchSite',
+    async (searchCriteria) => {
+        const response = await api.post('/site/searchSites', searchCriteria);
+        return response.data.data; // החזרת הנתונים
     }
 );
 
@@ -132,14 +142,30 @@ const siteSlice = createSlice({
     reducers: {},
     extraReducers: (builder) => {
         builder
+
+            // fetchSites
+            .addCase(fetchSites.pending, (state) => {
+                state.loading = true;
+                state.error = null;
+            })
+            .addCase(fetchSites.fulfilled, (state, action: PayloadAction<Site[]>) => {
+                state.loading = false;
+                state.sites = action.payload;
+            })
+            .addCase(fetchSites.rejected, (state, action) => {
+                state.loading = false;
+                state.error = action.error.message || 'Failed to fetch sites';
+            })
+
             //searchSite
             .addCase(searchSite.pending, (state) => {
                 state.loading = true;
                 state.error = null;
             })
             .addCase(searchSite.fulfilled, (state, action: PayloadAction<Site[]>) => {
+                console.log('Search results:', action.payload);
                 state.loading = false;
-                state.sites = action.payload;
+                state.sites = action.payload; // עדכון המצב עם תוצאות החיפוש
             })
             .addCase(searchSite.rejected, (state, action) => {
                 state.loading = false;

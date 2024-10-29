@@ -12,12 +12,15 @@ interface Site {
   status: string;
   creationDate: Date;
 }
+interface TableSideProps {
+  loadSite: boolean;
+  setLoadSite: React.Dispatch<React.SetStateAction<boolean>>;
+}
 
-const TableSide: React.FC = () => {
+const TableSide: React.FC<TableSideProps> = ({ loadSite, setLoadSite }) => {
   const [sites, setSites] = useState<Site[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
-  const [loadSite, setLoadSite] = useState<boolean>(true); 
 
   useEffect(() => {
     const fetchSites = async () => {

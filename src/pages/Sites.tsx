@@ -12,6 +12,7 @@ import PopUpCardCreateSite from '../components/PopUpCardCreateSite';
 const Websites: React.FC = () => {
     const [popUpCreateSite, setPopUpCreateSite] = useState(false);
     const [isAsideOpen, setAsideOpen] = useState<boolean>(false);
+    const [loadSite, setLoadSite] = useState(false);
     const navigate = useNavigate();
 
     
@@ -50,8 +51,8 @@ const Websites: React.FC = () => {
                         <span className="ml-2 hidden md:inline">Add Site</span>
                     </button>
                     {popUpCreateSite && (
-                        <PopUpCardCreateSite onClose={() => setPopUpCreateSite(false)} />
-                    )}
+            <PopUpCardCreateSite onClose={() => setPopUpCreateSite(false)} setLoadSite={setLoadSite} loadSite={loadSite} />
+        )}
                     <div className="flex flex-col space-y-2 md:space-y-0 md:flex-row items-center md:ml-4 md:flex-wrap">
                         <button
                             // onClick={}
@@ -67,7 +68,7 @@ const Websites: React.FC = () => {
                 </div>
 
                 <div className="container mx-auto bg-white shadow-md rounded-lg p-6 max-w-full">
-                    <TableSide />
+                <TableSide loadSite={loadSite} setLoadSite={setLoadSite} />
                 </div>
             </main>
 
