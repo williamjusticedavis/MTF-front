@@ -84,16 +84,17 @@ const Map: React.FC = () => {
     >
       <div className="relative h-full w-full flex flex-col items-center justify-start">
         <div className="absolute top-[30px] right-5 w-80 z-10">
-          <SearchPlace
-            onPlaceSelected={(place) => {
-              if (place.geometry?.location) {
-                setMapCenter({
-                  lat: place.geometry.location.lat(),
-                  lng: place.geometry.location.lng(),
-                });
-              }
-            }}
-          />
+        <SearchPlace
+  onPlaceSelected={(place) => {
+    if (place.geometry?.location) {
+      setMapCenter({
+        lat: place.geometry.location.lat(),
+        lng: place.geometry.location.lng(),
+      });
+      mapRef.current?.setZoom(15);  // Closer zoom level for better visibility
+    }
+  }}
+/>
         </div>
         <GoogleMap
           mapContainerStyle={containerStyle}
