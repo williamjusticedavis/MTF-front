@@ -15,8 +15,9 @@ interface Site {
 
 const TableSide: React.FC = () => {
   const [sites, setSites] = useState<Site[]>([]);
-  const [loading, setLoading] = useState<boolean>(true); 
+  const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
+  const [loadSite, setLoadSite] = useState<boolean>(true); 
 
   useEffect(() => {
     const fetchSites = async () => {
@@ -24,20 +25,20 @@ const TableSide: React.FC = () => {
       try {
         const sitesData = await fetchAllSites();
         if (sitesData.length === 0) {
-          setError('No sites found'); 
+          setError('No sites found');
         } else {
           setSites(sitesData);
-          setError(null); 
+          setError(null);
         }
       } catch (err) {
         setError('Error fetching sites');
       } finally {
-        setLoading(false); 
+        setLoading(false);
       }
     };
 
     fetchSites();
-  }, []);
+  }, [loadSite]);
 
   if (loading) {
     return (
@@ -69,15 +70,19 @@ const TableSide: React.FC = () => {
             <tr key={site._id}>
               <td className="py-2 px-4 border-b text-center text-xs sm:text-base truncate">{site.name}</td>
               <td className="py-2 px-4 border-b text-center text-xs sm:text-base truncate">{site.address}</td>
-              <td className="py-2 px-4 border-b text-center text-xs sm:text-base truncate">{site.coordinates}</td>
+              <td className="py-2 px-4 border-b text-center text-xs sm:text-base truncate">
+                {Array.isArray(site.coordinates)
+                  ? site.coordinates.join(", ")
+                  : site.coordinates}
+              </td>
               <td className="py-2 px-4 border-b text-center text-xs sm:text-base truncate">{site.status}</td>
               <td className="py-2 px-4 border-b text-center text-xs sm:text-base truncate">
                 {new Date(site.creationDate).toLocaleDateString()}
               </td>
 
               <td className="flex gap-2 items-center justify-center py-2 px-4 border-b text-center">
-                {<DeleteSite siteId={site._id} onDelete={() => console.log('Deleted', site._id)} />}
-                <EditSite site={site} />
+              {<DeleteSite siteId={site._id} onDelete={() => console.log('Deleted', site._id)} setLoadSite={setLoadSite} loadSite={loadSite}/>}
+                <EditSite site={site} setLoadSite={setLoadSite} loadSite={loadSite}/>
               </td>
             </tr>
           ))}

@@ -63,15 +63,23 @@ const Map: React.FC = () => {
     return `data:image/svg+xml;base64,${btoa(iconSvgString)}`;
   };
 
+  const createIcon = () => {
+    if (window.google && google.maps && google.maps.Size) {
+      return {
+        url: getIconUrl(),
+        scaledSize: new google.maps.Size(32, 32),
+      };
+    }
+    return undefined;
+  };
+
   const handlePlaceSelected = useCallback((place: google.maps.places.PlaceResult) => {
     if (place.geometry && place.geometry.location && !isAnimating) {
       const newCenter = {
         lat: place.geometry.location.lat(),
         lng: place.geometry.location.lng(),
       };
-
       setIsAnimating(true);
-
       if (place.geometry.viewport) {
         mapRef.current?.fitBounds(place.geometry.viewport);
         setMapCenter(newCenter);
@@ -136,10 +144,7 @@ const Map: React.FC = () => {
               key={site._id}
               position={{ lat: site.coordinates[1], lng: site.coordinates[0] }}
               title={site.name}
-              icon={{
-                url: getIconUrl(),
-                scaledSize: new google.maps.Size(32, 32),
-              }}
+              icon={createIcon()}
             />
           ))}
         </GoogleMap>
