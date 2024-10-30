@@ -6,6 +6,7 @@ import Side from '../components/Side';
 import TableSide from '../components/TableSite';
 import SearchSite from '../components/SearchSite';
 import PopUpCardCreateSite from '../components/PopUpCardCreateSite';
+import DownloadSiteList from '../components/DownloadSiteList';
 
 
 
@@ -13,9 +14,10 @@ const Websites: React.FC = () => {
     const [popUpCreateSite, setPopUpCreateSite] = useState(false);
     const [isAsideOpen, setAsideOpen] = useState<boolean>(false);
     const [loadSite, setLoadSite] = useState(false);
+    const [isDownloadSitesPopupVisible, setIsDownloadSitesPopupVisible] = useState<boolean>(false);
     const navigate = useNavigate();
 
-    
+
     const [showModal, setShowModal] = useState(false);
 
     const toggleAside = () => {
@@ -24,6 +26,10 @@ const Websites: React.FC = () => {
 
     const handleLogOut = () => {
         navigate("/login");
+    };
+
+    const showDownloadPopup = () => {
+        setIsDownloadSitesPopupVisible(!isDownloadSitesPopupVisible);
     };
 
     useEffect(() => {
@@ -39,7 +45,7 @@ const Websites: React.FC = () => {
 
     return (
         <div className={`flex flex-col min-h-screen transition-transform duration-300 ${isAsideOpen ? 'mr-[150px]' : 'mr-0'}`}>
-            <Header toggleAside={toggleAside} color="bg-white"/>
+            <Header toggleAside={toggleAside} color="bg-white" />
 
             <main className="flex-grow bg-gray-100 p-4 container mx-auto max-w-full">
                 <div className="flex flex-col space-y-4 md:space-y-0 md:flex-row md:flex-wrap md:justify-between items-center mb-4">
@@ -51,24 +57,30 @@ const Websites: React.FC = () => {
                         <span className="ml-2 hidden md:inline">Add Site</span>
                     </button>
                     {popUpCreateSite && (
-            <PopUpCardCreateSite onClose={() => setPopUpCreateSite(false)} setLoadSite={setLoadSite} loadSite={loadSite} />
-        )}
+                        <PopUpCardCreateSite onClose={() => setPopUpCreateSite(false)} setLoadSite={setLoadSite} loadSite={loadSite} />
+                    )}
                     <div className="flex flex-col space-y-2 md:space-y-0 md:flex-row items-center md:ml-4 md:flex-wrap">
                         <button
-                            // onClick={}
+                            onClick={showDownloadPopup}
                             className="flex items-center justify-center p-2 bg-green-500 text-white rounded hover:bg-green-600 transition duration-300 shadow w-full md:w-auto md:mr-2"
                         >
                             <img src="../../xl wite.png" alt="Download" className="w-6 h-6 inline-block" />
                             <span className="ml-2 hidden md:inline">Download List</span>
                         </button>
                         <div className="w-full md:w-auto mt-2 md:mt-0">
-                           <SearchSite />   
+                            <SearchSite />
                         </div>
                     </div>
                 </div>
 
+                {isDownloadSitesPopupVisible && (
+                    <DownloadSiteList setIsDownloadPopupVisible={setIsDownloadSitesPopupVisible}/>
+                )
+                    
+                }
+
                 <div className="container mx-auto bg-white shadow-md rounded-lg p-6 max-w-full">
-                <TableSide loadSite={loadSite} setLoadSite={setLoadSite} />
+                    <TableSide loadSite={loadSite} setLoadSite={setLoadSite} />
                 </div>
             </main>
 
