@@ -34,7 +34,7 @@ export const fetchAllUsers = async () => {
 export const checkEmail = async (userData: { email: string }) => {
   try {
     const response = await api.post('/users/check-email', userData);
-    console.log(response.data);
+    localStorage.setItem('user', response.data.data);
     return response.data;
   } catch (error) {
     console.error('Error checking email:', error);
@@ -85,6 +85,8 @@ export const searchUsers = async (searchCriteria: any) => {
 export const verifyOtp = async (otpData: { email: string, otpCode: string }) => {
   try {
     const response = await api.post('/otp/verify', otpData);
+    console.log(response);
+    
     return response.data;
   } catch (error) {
     console.error('Error verifying OTP:', error);
