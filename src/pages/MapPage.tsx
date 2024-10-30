@@ -48,7 +48,7 @@ const MapPage: React.FC = () => {
       <div className="flex flex-1 overflow-hidden">
         <Side isOpen={isAsideOpen} showLogoutModal={() => setShowModal(true)} />
 
-        <main className="flex-grow">
+        <main className="flex-grow min-w-[300px]">
           <div onContextMenu={handleRightClick} className="h-full">
             <Map />
           </div>
