@@ -9,7 +9,7 @@ import { Provider } from "react-redux";
 import store from './redux/store';
 import Map from './pages/MapPage';
 import Sites from './pages/Sites';
-import About from './pages/About';
+import AboutUs from './pages/AboutUs';
 
 const App: React.FC = () => {
   return (
@@ -17,7 +17,7 @@ const App: React.FC = () => {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Navigate to="/login" />} />
-          <Route path="/about" element={<About/>} />
+          <Route path="/aboutus" element={<AboutUs/>} />
           <Route path="/login" element={<Login />} />
           <Route path="/map" element={<Map/>} />
           
@@ -26,7 +26,7 @@ const App: React.FC = () => {
 
           {/* Unprotected /users route */}
           <Route path="/users" element={<Users />} />
-          <Route path="/websites" element={<Sites/>} />
+          <Route path="/sites" element={<Sites/>} />
 
           <Route path="*" element={<NotFound />} />
         </Routes>
