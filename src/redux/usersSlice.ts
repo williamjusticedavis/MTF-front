@@ -24,18 +24,24 @@ const initialState: UsersState = {
 
 
 export interface Site {
+    _id: string;
     name: string;
     address: string;
-}
+    coordinates: [number, number];
+    status: string;
+    creationDate: Date;
+  }
 
 export interface SiteState {
     sites: Site[];
+    filteredSites: Site[];
     loading: boolean;
     error: string | null;
 }
 
 const initialSitesState: SiteState = {
     sites: [],
+    filteredSites: [],
     loading: false,
     error: null,
 };
@@ -72,7 +78,7 @@ export const deleteUser = createAsyncThunk<void, string>(
 export const fetchSites = createAsyncThunk<Site[], void>(
     'sites/fetchSites',
     async () => {
-        const response = await api.get('/sites');
+        const response = await api.get('/site/getAllSites');
         return response.data.data;
     }
 );
@@ -139,7 +145,11 @@ const userSlice = createSlice({
 const siteSlice = createSlice({
     name: 'sites',
     initialState: initialSitesState,
-    reducers: {},
+    reducers: {
+        clearFilteredSites: (state) => {
+            state.filteredSites = []; // איפוס תוצאות החיפוש
+        },
+    },
     extraReducers: (builder) => {
         builder
 
@@ -151,6 +161,7 @@ const siteSlice = createSlice({
             .addCase(fetchSites.fulfilled, (state, action: PayloadAction<Site[]>) => {
                 state.loading = false;
                 state.sites = action.payload;
+                state.filteredSites = []; // איפוס תוצאות החיפוש בטעינה מחודשת של כל האתרים
             })
             .addCase(fetchSites.rejected, (state, action) => {
                 state.loading = false;
@@ -165,7 +176,7 @@ const siteSlice = createSlice({
             .addCase(searchSite.fulfilled, (state, action: PayloadAction<Site[]>) => {
                 console.log('Search results:', action.payload);
                 state.loading = false;
-                state.sites = action.payload; // עדכון המצב עם תוצאות החיפוש
+                state.filteredSites = action.payload; // עדכון filteredSites עם תוצאות החיפוש
             })
             .addCase(searchSite.rejected, (state, action) => {
                 state.loading = false;

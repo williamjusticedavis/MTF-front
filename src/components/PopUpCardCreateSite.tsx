@@ -5,13 +5,15 @@ interface PopUpCardCreateSiteProps {
   onClose: () => void;
   loadSite: boolean;
   setLoadSite: React.Dispatch<React.SetStateAction<boolean>>;
+  x: number;
+  y: number
 }
 
-const PopUpCardCreateSite: React.FC<PopUpCardCreateSiteProps> = ({ onClose, setLoadSite, loadSite }) => {
+const PopUpCardCreateSite: React.FC<PopUpCardCreateSiteProps> = ({ onClose, setLoadSite, loadSite, x, y}) => {
   const [name, setName] = useState('');
   const [address, setAddress] = useState('');
-  const [latitudeCoordinate, setLatitudeCoordinate] = useState('');
-  const [longitudeCoordinate, setLongitudeCoordinate] = useState('');
+  const [latitudeCoordinate, setLatitudeCoordinate] = useState<number>(x);
+  const [longitudeCoordinate, setLongitudeCoordinate] = useState<number>(y);
 
   const popUpRef = useRef<HTMLDivElement>(null);
 
@@ -84,11 +86,11 @@ const PopUpCardCreateSite: React.FC<PopUpCardCreateSiteProps> = ({ onClose, setL
           </div>
           <div className="mb-4">
             <label htmlFor="latitude" className="block text-sm font-medium text-gray-700">Latitude Coordinate:</label>
-            <input
+            <input 
               id="latitude"
               type="text"
               value={latitudeCoordinate}
-              onChange={(event) => setLatitudeCoordinate(event.target.value)}
+              onChange={(event) => setLatitudeCoordinate(parseFloat(event.target.value))}
               required
               className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:ring-blue-500 focus:border-blue-500"
             />
@@ -99,7 +101,7 @@ const PopUpCardCreateSite: React.FC<PopUpCardCreateSiteProps> = ({ onClose, setL
               id="longitude"
               type="text"
               value={longitudeCoordinate}
-              onChange={(event) => setLongitudeCoordinate(event.target.value)}
+              onChange={(event) => setLongitudeCoordinate(parseFloat(event.target.value))}
               required
               className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:ring-blue-500 focus:border-blue-500"
             />

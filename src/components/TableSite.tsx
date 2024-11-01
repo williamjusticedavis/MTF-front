@@ -3,45 +3,66 @@ import { SyncLoader } from 'react-spinners';
 import EditSite from './EditSite';
 import { fetchAllSites } from '../server/app';
 import DeleteSite from './DeleteSite';
+import { useSelector, useDispatch} from 'react-redux';
+import { AppDispatch, RootState } from '../redux/store'
+import { fetchSites } from '../redux/usersSlice';
 
-interface Site {
-  _id: string;
-  name: string;
-  address: string;
-  coordinates: [number, number];
-  status: string;
-  creationDate: Date;
-}
+// interface Site {
+//   _id: string;
+//   name: string;
+//   address: string;
+//   coordinates: [number, number];
+//   status: string;
+//   creationDate: Date;
+// }
 interface TableSideProps {
   loadSite: boolean;
   setLoadSite: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const TableSide: React.FC<TableSideProps> = ({ loadSite, setLoadSite }) => {
-  const [sites, setSites] = useState<Site[]>([]);
-  const [loading, setLoading] = useState<boolean>(true);
-  const [error, setError] = useState<string | null>(null);
+  const dispatch: AppDispatch = useDispatch();
+  // const [sites, setSites] = useState<Site[]>([]);
+  // const [loading, setLoading] = useState<boolean>(true);
+  // const [error, setError] = useState<string | null>(null);
+ 
+const sites = useSelector((state: RootState) =>
+  state.sites.filteredSites && state.sites.filteredSites.length > 0
+    ? state.sites.filteredSites
+    : state.sites.sites
+);
+  const loading = useSelector((state: RootState) => state.sites.loading);
+  const error = useSelector((state: RootState) => state.sites.error);
+
+  // useEffect(() => {
+  //   const fetchSites = async () => {
+  //     setLoading(true);
+  //     try {
+  //       const sitesData = await fetchAllSites();
+  //       if (sitesData.length === 0) {
+  //         setError('No sites found');
+  //       } else {
+  //         setSites(sitesData);
+  //         setError(null);
+  //       }
+  //     } catch (err) {
+  //       setError('Error fetching sites');
+  //     } finally {
+  //       setLoading(false);
+  //     }
+  //   };
+
 
   useEffect(() => {
-    const fetchSites = async () => {
-      setLoading(true);
-      try {
-        const sitesData = await fetchAllSites();
-        if (sitesData.length === 0) {
-          setError('No sites found');
-        } else {
-          setSites(sitesData);
-          setError(null);
-        }
-      } catch (err) {
-        setError('Error fetching sites');
-      } finally {
-        setLoading(false);
-      }
-    };
+    dispatch(fetchSites()).then((result) => {
+      console.log('Fetched Sites:', result);
+    });
+  }, [dispatch]);
+  
 
-    fetchSites();
-  }, [loadSite]);
+
+  //   fetchSites();
+  // }, [loadSite]);
 
   if (loading) {
     return (
@@ -69,7 +90,10 @@ const TableSide: React.FC<TableSideProps> = ({ loadSite, setLoadSite }) => {
           </tr>
         </thead>
         <tbody>
-          {sites.map((site) => (
+          {
+           sites.length > 0 ? (
+
+          sites.map((site) => (
             <tr key={site._id}>
               <td className="py-2 px-4 border-b text-center text-xs sm:text-base truncate">{site.name}</td>
               <td className="py-2 px-4 border-b text-center text-xs sm:text-base truncate">{site.address}</td>
@@ -85,11 +109,11 @@ const TableSide: React.FC<TableSideProps> = ({ loadSite, setLoadSite }) => {
 
               <td className="flex gap-2 items-center justify-center py-2 px-4 border-b text-center">
               {<DeleteSite siteId={site._id} onDelete={() => console.log('Deleted', site._id)} setLoadSite={setLoadSite} loadSite={loadSite}/>}
-                <EditSite site={site} setLoadSite={setLoadSite} loadSite={loadSite}/>
+                <EditSite site={site} setLoadSite={setLoadSite} loadSite={loadSite} />
               </td>
             </tr>
-          ))}
-          {sites.length === 0 && (
+          ))
+        ) : (
             <tr>
               <td colSpan={5} className="py-2 px-4 text-center text-xs sm:text-base">
                 No sites found.
